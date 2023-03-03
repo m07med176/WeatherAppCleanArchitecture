@@ -19,15 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.ui.navigation.Screen
+import iti.android.wheatherappjetpackcompose.utils.toast
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SettingsScreen(navController: NavHostController) {
+fun SettingsScreen(navController: NavHostController? = null) {
+    val context = LocalContext.current
     val color by rememberInfiniteTransition()
         .animateColor(
             initialValue = MaterialTheme.colors.primary,
@@ -77,7 +79,8 @@ fun SettingsScreen(navController: NavHostController) {
                         Button(
                             shape = RoundedCornerShape(8.dp),
                             onClick = {
-                                navController.navigate("login_screen/user")
+                                "demo".toast(context)
+
                             },
 
                             ) {
@@ -88,7 +91,7 @@ fun SettingsScreen(navController: NavHostController) {
                         Button(
                             shape = RoundedCornerShape(8.dp),
                             onClick = {
-                                navController.navigate(Screen.Register.route)
+                                "This is a message".toast(context)
                             },
                         ) {
                             Text(text = "Register", color = Color.White)

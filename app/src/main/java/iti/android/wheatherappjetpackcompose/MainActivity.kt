@@ -1,6 +1,5 @@
 package iti.android.wheatherappjetpackcompose
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,7 +12,6 @@ import iti.android.wheatherappjetpackcompose.ui.navigation.SetupNavGraph
 import iti.android.wheatherappjetpackcompose.ui.theme.WheatherAppJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,8 +29,20 @@ class MainActivity : ComponentActivity() {
                                     Screen.Home.route,
                                     Screen.Home.name,
                                     Screen.Home.image
-
                                 ),
+
+                                BottomMenuContent(
+                                    Screen.Favorite.route,
+                                    Screen.Favorite.name,
+                                    Screen.Favorite.image
+                                ),
+
+                                BottomMenuContent(
+                                    Screen.Alert.route,
+                                    Screen.Alert.name,
+                                    Screen.Alert.image
+                                ),
+
                                 BottomMenuContent(
                                     Screen.Settings.route,
                                     Screen.Settings.name,

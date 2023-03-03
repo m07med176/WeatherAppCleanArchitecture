@@ -34,7 +34,7 @@ import iti.android.wheatherappjetpackcompose.ui.components.SearchAppBar
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController? = null) {
     val color by rememberInfiniteTransition()
         .animateColor(
             initialValue = MaterialTheme.colors.primary,
