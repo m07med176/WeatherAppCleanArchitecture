@@ -16,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WheatherAppJetpackCompose"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".presentationLayer.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WheatherAppJetpackCompose">
@@ -27,6 +28,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>

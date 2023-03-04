@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.theme
+package iti.android.wheatherappjetpackcompose.presentationLayer.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

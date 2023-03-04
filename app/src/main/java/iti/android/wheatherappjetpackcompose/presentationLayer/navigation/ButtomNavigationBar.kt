@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.navigation
+package iti.android.wheatherappjetpackcompose.presentationLayer.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import iti.android.weatherappcompose.ui.navigation.models.BottomMenuContent
-import iti.android.wheatherappjetpackcompose.ui.theme.AquaBlue
-import iti.android.wheatherappjetpackcompose.ui.theme.ButtonBlue
-import iti.android.wheatherappjetpackcompose.ui.theme.DeepBlue
+import iti.android.wheatherappjetpackcompose.presentationLayer.theme.AquaBlue
+import iti.android.wheatherappjetpackcompose.presentationLayer.theme.ButtonBlue
+import iti.android.wheatherappjetpackcompose.presentationLayer.theme.DeepBlue
 
 
 @Composable

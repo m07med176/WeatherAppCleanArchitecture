@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.navigation
+package iti.android.wheatherappjetpackcompose.presentationLayer.navigation
 
 import androidx.annotation.DrawableRes
 import iti.android.wheatherappjetpackcompose.R

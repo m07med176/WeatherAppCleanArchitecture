@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.features.alert
+package iti.android.wheatherappjetpackcompose.features.alert
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

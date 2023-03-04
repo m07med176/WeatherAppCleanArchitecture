@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui
+package iti.android.wheatherappjetpackcompose.utils
 
 import androidx.annotation.DrawableRes
 

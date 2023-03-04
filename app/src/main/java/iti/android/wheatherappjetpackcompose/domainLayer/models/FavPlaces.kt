@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.features.favorite.models
+package iti.android.wheatherappjetpackcompose.domainLayer.models
 
 data class FavPlaces(
     val name: String,

@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.features.settings
+package iti.android.wheatherappjetpackcompose.presentationLayer
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor

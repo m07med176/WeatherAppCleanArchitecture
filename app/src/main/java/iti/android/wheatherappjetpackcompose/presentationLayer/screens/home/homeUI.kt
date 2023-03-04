@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.features.home
+package iti.android.wheatherappjetpackcompose.features.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor
@@ -26,10 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.ui.ImageViewData
-import iti.android.wheatherappjetpackcompose.ui.components.ImageLazy
-import iti.android.wheatherappjetpackcompose.ui.components.ImageLazyGrid
-import iti.android.wheatherappjetpackcompose.ui.components.SearchAppBar
+import iti.android.wheatherappjetpackcompose.shared.ui.components.ImageLazy
+import iti.android.wheatherappjetpackcompose.shared.ui.components.ImageLazyGrid
+import iti.android.wheatherappjetpackcompose.shared.ui.components.SearchAppBar
+import iti.android.wheatherappjetpackcompose.utils.ImageViewData
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)

@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.ui.components
+package iti.android.wheatherappjetpackcompose.shared.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
