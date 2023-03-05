@@ -10,10 +10,10 @@ interface NetworkAPI {
     @GET("onecall")
     suspend fun getWeatherDetails(
         @Query("appid") apiKey: String = Constants.API_KEY,
-        @Query("exclude") exclude: String,
-        @Query("lon") longitude: String,
-        @Query("lat") latitude: String,
-        @Query("units") units: String,
+        @Query("exclude") exclude: String? = null,
+        @Query("lon") longitude: Double,
+        @Query("lat") latitude: Double,
+        @Query("units") units: String? = null,
 
         ): Response<WeatherSuccessResponse>
 }
