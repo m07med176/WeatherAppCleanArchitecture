@@ -1,0 +1,5 @@
+package iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite
+
+import iti.android.wheatherappjetpackcompose.domainLayer.repository.IFavoriteRepository
+
+class InsertFavoriteUseCase(private val repository: IFavoriteRepository)
