@@ -22,20 +22,20 @@ android {
             useSupportLibrary true
         }
 
-        Properties properties = new Properties()
-        if (rootProject.file("local.properties").exists()) {
-            properties.load(
-                    rootProject
-                            .file("local.properties")
-                            .newDataInputStream()
-            )
-        }
-
-        buildConfigField(
-                "String",
-                "MAPS_API_KEY",
-                properties.getProperty("MAPS_API_KEY")
-        )
+//        Properties properties = new Properties()
+//        if (rootProject.file("local.properties").exists()) {
+//            properties.load(
+//                    rootProject
+//                            .file("local.properties")
+//                            .newDataInputStream()
+//            )
+//        }
+//
+//        buildConfigField(
+//                "String",
+//                "MAPS_API_KEY",
+//                properties.getProperty("MAPS_API_KEY")
+//        )
 
     }
 
@@ -63,6 +63,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -81,6 +87,7 @@ dependencies {
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
 
     // Google MAPS
     implementation 'com.google.maps.android:maps-compose:2.11.0'
@@ -91,11 +98,23 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:3.0.0'
 
     // Testing
+
+    // AndroidX Test - Instrumented testing
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "androidx.test:core-ktx:1.5.0"
+    testImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.robolectric:robolectric:4.8"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "org.hamcrest:hamcrest-library:2.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+
+    // Android Test
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
 
     //  Coroutines

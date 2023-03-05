@@ -7,17 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 
 
 @Database(
-    entities = [FavoriteEntity::class, AlertEntity::class],
-    version = 1,
+    entities = [HomeEntity::class, AlertEntity::class, FavoriteEntity::class],
+    version = 5,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(WeatherConverters::class, StringListConverters::class)
 abstract class RoomDB : RoomDatabase() {
-    abstract fun favoriteDao(): FavoriteDao
+    abstract fun homeDao(): HomeDao
     abstract fun alertDao(): AlertDao
+    abstract fun favoriteDao(): FavoriteDao
 
     companion object {
         @Volatile

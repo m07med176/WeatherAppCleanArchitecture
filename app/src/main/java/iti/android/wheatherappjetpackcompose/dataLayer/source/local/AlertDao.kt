@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AlertDao {
-    @Query("SELECT * FROM alert")
+    @Query("SELECT * FROM alert_table")
     fun getAlerts(): Flow<List<AlertEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

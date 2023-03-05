@@ -7,14 +7,14 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccess
 /**
  * # Data Converter
  */
-class Converters {
+class WeatherConverters {
     @TypeConverter
     fun fromStringToWeather(weather: String?): WeatherSuccessResponse? {
-        return weather?.let { Gson().fromJson(weather, WeatherSuccessResponse::class.java) }
+        return weather?.let { Gson().fromJson(it, WeatherSuccessResponse::class.java) }
     }
 
     @TypeConverter
     fun fromWeatherToString(weather: WeatherSuccessResponse?): String? {
-        return weather?.let { Gson().toJson(weather) }
+        return weather?.let { Gson().toJson(it) }
     }
 }
