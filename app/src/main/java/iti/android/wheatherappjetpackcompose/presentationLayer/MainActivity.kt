@@ -1,65 +1,34 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.material.Scaffold
-import androidx.navigation.compose.rememberNavController
-import iti.android.weatherappcompose.ui.navigation.models.BottomMenuContent
-import iti.android.wheatherappjetpackcompose.presentationLayer.navigation.Nav
-import iti.android.wheatherappjetpackcompose.presentationLayer.navigation.Screen
-import iti.android.wheatherappjetpackcompose.presentationLayer.navigation.SetupNavGraph
-import iti.android.wheatherappjetpackcompose.presentationLayer.theme.WheatherAppJetpackComposeTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import iti.android.wheatherappjetpackcompose.R
 
-class MainActivity : ComponentActivity() {
 
-    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            WheatherAppJetpackComposeTheme {
+        setContentView(R.layout.main_activity)
 
-                val navController = rememberNavController()
-                Scaffold(
-                    content = {
-                        SetupNavGraph(navController = navController)
-                    },
-                    bottomBar = {
-                        Nav(
-                            items = listOf(
-                                BottomMenuContent(
-                                    Screen.Home.route,
-                                    Screen.Home.name,
-                                    Screen.Home.image
-                                ),
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val navController: NavController? = findNavController()
 
-                                BottomMenuContent(
-                                    Screen.Favorite.route,
-                                    Screen.Favorite.name,
-                                    Screen.Favorite.image
-                                ),
+        navController?.let {
+            NavigationUI.setupWithNavController(bottomNavigationView, it)
 
-                                BottomMenuContent(
-                                    Screen.Alert.route,
-                                    Screen.Alert.name,
-                                    Screen.Alert.image
-                                ),
-
-                                BottomMenuContent(
-                                    Screen.Settings.route,
-                                    Screen.Settings.name,
-                                    Screen.Settings.image
-                                )
-                            ),
-                            navController = navController
-                        ) {
-                            navController.navigate(it.route)
-                        }
-                    }
-                )
-            }
         }
+
+    }
+
+    private fun findNavController(): NavController? {
+        val navHostFragment =
+            (this as? MainActivity)?.supportFragmentManager?.findFragmentById(R.id.mainNavHostFragment) as? NavHostFragment
+        return navHostFragment?.navController
     }
 }
 

@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.WheatherAppJetpackCompose" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+    <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/background</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/sale</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+
     </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!--    <style name="Theme.WheatherAppJetpackCompose" parent="android:Theme.Material.Light.NoActionBar">-->
+    <!--        <item name="android:statusBarColor">@color/purple_700</item>-->
+    <!--    </style>-->
 </resources>
