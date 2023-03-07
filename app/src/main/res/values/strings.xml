@@ -29,4 +29,7 @@
     <string name="rb_alarm">Alarm</string>
     <string name="rb_notification">Notification</string>
     <string name="btn_save_alert">Save</string>
+    <string name="ask_location_message">Please Allow us to know your location</string>
+    <string name="by_gps_btn">By GPS</string>
+    <string name="by_location_btn">By Location</string>
 </resources>
