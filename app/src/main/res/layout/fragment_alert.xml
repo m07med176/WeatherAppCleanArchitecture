@@ -5,6 +5,13 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.AlertViewModel" />
+
+        <variable
+            name="mAdapter"
+            type="iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.AlertAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:adapter="@{mAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_alert" />
 
