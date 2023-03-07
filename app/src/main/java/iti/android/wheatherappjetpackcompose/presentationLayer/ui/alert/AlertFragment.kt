@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.AlertRepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.IAlertRepository
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
 import iti.android.wheatherappjetpackcompose.databinding.FragmentAlertBinding
-import iti.android.wheatherappjetpackcompose.domainLayer.repository.IAlertRepository
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.DeleteAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.GetAlertUseCase

@@ -4,14 +4,18 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.HomeDao
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.NetworkAPI
-import iti.android.wheatherappjetpackcompose.domainLayer.repository.IMainRepository
+import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.RetrofitInstance
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class MainRepositoryImpl(
     private val dao: HomeDao,
-    private val api: NetworkAPI,
+    private val retrofitInstance: RetrofitInstance,
 ) : IMainRepository {
+
+    private var api: NetworkAPI = retrofitInstance.retrofit.create(NetworkAPI::class.java)
+    override fun checkInternetConnectivity(): Boolean = retrofitInstance.hasNetwork()
+
     override fun getHome(): Flow<HomeEntity> {
         return dao.getHome()
     }

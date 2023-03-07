@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.FavoriteRepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.IFavoriteRepository
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
 import iti.android.wheatherappjetpackcompose.databinding.FragmentFavoriteBinding
-import iti.android.wheatherappjetpackcompose.domainLayer.repository.IFavoriteRepository
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase

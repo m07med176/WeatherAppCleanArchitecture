@@ -19,6 +19,13 @@ class RetrofitInstance(private val context: Context) {
             .build()
     }
 
+    fun hasNetwork(): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
+
     private fun cashAndLoggerManager(context: Context): OkHttpClient {
         // Logging Retrofit
         val interceptor = HttpLoggingInterceptor()
@@ -31,7 +38,7 @@ class RetrofitInstance(private val context: Context) {
             .cache(myCache)
             .addInterceptor(Interceptor { chain: Interceptor.Chain ->
                 var request = chain.request()
-                request = if (hasNetwork(context)) request.newBuilder()
+                request = if (hasNetwork()) request.newBuilder()
                     .header("Cache-Control", "public, max-age=" + Constants.MAX_AGE)
                     .build() else request.newBuilder()
                     .header(
@@ -46,11 +53,5 @@ class RetrofitInstance(private val context: Context) {
     }
 
 
-    private fun hasNetwork(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetworkInfo
-        return activeNetwork != null && activeNetwork.isConnected
-    }
 
 }

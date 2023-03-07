@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.domainLayer.repository
+package iti.android.wheatherappjetpackcompose.dataLayer.repository
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
 import kotlinx.coroutines.flow.Flow

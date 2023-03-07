@@ -2,7 +2,6 @@ package iti.android.wheatherappjetpackcompose.dataLayer.repository
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.FavoriteDao
-import iti.android.wheatherappjetpackcompose.domainLayer.repository.IFavoriteRepository
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteRepositoryImpl(private val dao: FavoriteDao) : IFavoriteRepository {

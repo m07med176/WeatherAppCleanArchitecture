@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.domainLayer.repository
+package iti.android.wheatherappjetpackcompose.dataLayer.repository
 
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
@@ -8,6 +8,7 @@ import retrofit2.Response
 
 interface IMainRepository {
 
+    fun checkInternetConnectivity(): Boolean
     fun getHome(): Flow<HomeEntity>
     suspend fun insertHome(home: HomeEntity)
     suspend fun deleteHome(home: HomeEntity)
