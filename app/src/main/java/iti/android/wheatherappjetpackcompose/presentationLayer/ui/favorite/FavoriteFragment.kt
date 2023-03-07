@@ -16,7 +16,7 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        viewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        viewModel = ViewModelProvider(this)[FavoriteViewModel::class.java]
 
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
