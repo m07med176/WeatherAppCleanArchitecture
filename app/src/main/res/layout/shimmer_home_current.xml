@@ -1,81 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shimmer_view_container"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="30dp">
+    android:layout_height="match_parent"
+    app:shimmer_auto_start="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView_date_daily"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="Loading .."
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="loading .."
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:text="Sunday" />
+            android:layout_margin="30dp"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView_condition_icon_daily"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView_date_daily"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:src="@tools:sample/avatars" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView_temperature_daily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageView_condition_icon_daily"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:text="25 C" />
+                <TextView
 
-        <TextView
-            android:id="@+id/textView_feels_like_temperature_daily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView_temperature_daily"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:text="25 C" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#&#xb0;"
+                    android:textSize="45sp" />
 
-        <TextView
-            android:id="@+id/textView_description_daily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:gravity="center"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView_feels_like_temperature_daily"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:text="Moderate Cloudy" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading .."
+                    android:textSize="20sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="end"
+                app:cardBackgroundColor="@color/backgroundAd"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
 
-</androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/productImage_predictProduct"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/weather" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>

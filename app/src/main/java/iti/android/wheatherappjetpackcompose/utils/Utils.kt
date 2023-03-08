@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
 
+// NavHostFragment.findNavController(this).navigate(r.id)
 fun findNavController(activity: Activity): NavController? {
     val navHostFragment =
         (activity as? MainActivity)?.supportFragmentManager?.findFragmentById(R.id.mainNavHostFragment) as? NavHostFragment
