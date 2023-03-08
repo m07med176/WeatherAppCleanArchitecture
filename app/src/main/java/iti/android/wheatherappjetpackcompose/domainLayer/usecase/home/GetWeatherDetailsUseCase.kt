@@ -37,9 +37,14 @@ class GetWeatherDetailsUseCase(private val repository: IMainRepository) {
                             emit(DataResponseState.OnNothingData<WeatherDetailsModel>())
                         } else {
                             val data = WeatherDetailsMapper().mapFromEntity(responseData)
+                            data.cityName = repository.getCityName(
+                                LatLng(
+                                    data.lat?.toDouble() ?: 0.0,
+                                    data.lon?.toDouble() ?: 0.0
+                                )
+                            )
                             // Insert Data in Home Room
                             repository.insertHome(WeatherDetailsCashMapper().entityFromMap(data))
-
                             // Send Data to state
                             emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
                         }

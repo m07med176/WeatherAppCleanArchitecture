@@ -32,4 +32,6 @@
     <string name="ask_location_message">Please Allow us to know your location</string>
     <string name="by_gps_btn">By GPS</string>
     <string name="by_location_btn">By Location</string>
+    <string name="degree" translatable="false">%s&#xb0;</string>
+    <!--    <string name="shoe_size">SIZE: %.1f</string>-->
 </resources>

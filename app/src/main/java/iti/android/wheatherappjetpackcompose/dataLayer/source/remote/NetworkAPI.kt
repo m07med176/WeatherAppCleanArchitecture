@@ -13,7 +13,7 @@ interface NetworkAPI {
         @Query("exclude") exclude: String? = null,
         @Query("lon") longitude: Double,
         @Query("lat") latitude: Double,
-        @Query("units") units: String? = null,
+        @Query("units") units: String = Units.metric.name,
 
         ): Response<WeatherSuccessResponse>
 }
