@@ -19,21 +19,21 @@ data class WeatherDetailsModel(
 )
 
 data class CurrentModel(
-    var clouds: Int? = null,
-    val dew_point: Double? = null,
+    var clouds: String = "",
+    val dew_point: String = "",
     val dt: String = "",
-    val feels_like: Double? = null,
-    val humidity: Int? = null,
-    val pressure: Int? = null,
-    val sunrise: Int? = null,
-    val sunset: Int? = null,
-    val temp: Double? = null,
-    val uvi: Double? = null,
-    val visibility: Int? = null,
+    val feels_like: String = "",
+    val humidity: String = "",
+    val pressure: String = "",
+    val sunrise: String = "",
+    val sunset: String = "",
+    val temp: String = "",
+    val uvi: String = "",
+    val visibility: String = "",
     val weather: List<Weather> = emptyList(),
-    val wind_deg: Int? = null,
-    val wind_gust: Double? = null,
-    val wind_speed: Int? = null,
+    val wind_deg: String = "",
+    val wind_gust: String = "",
+    val wind_speed: String = "",
 )
 
 

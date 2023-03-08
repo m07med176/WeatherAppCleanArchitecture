@@ -18,21 +18,20 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/cityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="Loading .."
+                android:text="@string/loading"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/dateTime"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="loading .."
+                android:text="@string/loading"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -60,7 +59,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading .."
+                    android:text="@string/loading"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loading"
                     android:textSize="20sp" />
 
             </LinearLayout>
