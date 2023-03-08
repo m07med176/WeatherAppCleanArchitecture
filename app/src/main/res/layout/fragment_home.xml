@@ -426,6 +426,7 @@
                             android:orientation="vertical"
                             android:visibility="gone">
 
+                            <include layout="@layout/item_hourly_shimmer" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -461,6 +462,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:visibility="gone">
+
+                            <include layout="@layout/item_daily_shimmer" />
 
                         </LinearLayout>
 

@@ -2,16 +2,37 @@ package iti.android.wheatherappjetpackcompose.domainLayer.models
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Current
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
-import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
-import iti.android.wheatherappjetpackcompose.domainLayer.utils.dateTimeConverterTimestampToString
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.*
+import kotlin.streams.toList
 
 class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetailsModel> {
     override fun mapFromEntity(entity: WeatherSuccessResponse): WeatherDetailsModel {
         val currentEntity: Current = entity.current ?: Current()
 
+        val dailyList = entity.daily?.stream()?.map { dailyEntity ->
+            DailyModel(
+                dt = dayConverterToString(dailyEntity.dt) ?: "",
+                image = dailyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
+                    .toList()[0],
+                min = dailyEntity.temp.min.toString(),
+                max = dailyEntity.temp.max.toString(),
+                desc = dailyEntity.weather.stream().map { weather -> weather.description }
+                    .toList()[0],
+
+                )
+        }?.toList() ?: emptyList()
+
+        val hourlyList = entity.hourly?.stream()?.map { hourlyEntity ->
+            HourlyModel(
+                dt = timeConverterToString(hourlyEntity.dt) ?: "",
+                image = hourlyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
+                    .toList()[0],
+                temp = hourlyEntity.temp.toString()
+            )
+        }?.toList() ?: emptyList()
         currentEntity.apply {
             if (weather.isNotEmpty()) {
-                weather[0].icon = "https://openweathermap.org/img/wn/${weather[0].icon}@2x.png"
+                weather[0].icon = iconConverter(weather[0].icon)
             }
         }
 
@@ -37,8 +58,8 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
 
             ),
             alert = entity.alert,
-            daily = entity.daily,
-            hourly = entity.hourly,
+            daily = dailyList,
+            hourly = hourlyList,
             lat = entity.lat,
             lon = entity.lon,
             timezone = entity.timezone,
@@ -51,8 +72,8 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
         return WeatherSuccessResponse(
             current = null,
             alert = domainModel.alert,
-            daily = domainModel.daily,
-            hourly = domainModel.hourly,
+            daily = null,
+            hourly = null,
             lat = domainModel.lat,
             lon = domainModel.lon,
             timezone = domainModel.timezone,

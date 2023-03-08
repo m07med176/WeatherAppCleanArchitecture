@@ -7,11 +7,7 @@
 
         <variable
             name="modelData"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Hourly" />
-
-        <variable
-            name="clickListener"
-            type="iti.android.wheatherappjetpackcompose.presentationLayer.ui.home.HourlyAdapter.ItemOnCLickListener" />
+            type="iti.android.wheatherappjetpackcompose.domainLayer.models.HourlyModel" />
 
     </data>
 
@@ -22,47 +18,44 @@
         android:layout_margin="8dp"
         app:cardCornerRadius="30dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:textSize="11sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{modelData.dt}"
                 tools:text="4 AM" />
 
-            <ImageView
-                android:id="@+id/imageView_condition_icon_hourly"
+            <androidx.cardview.widget.CardView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_time"
-                tools:src="@tools:sample/avatars" />
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:thumbnail="@{modelData.image}"
+                    tools:src="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
 
             <TextView
-                android:id="@+id/textView_temperature_hourly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:textSize="11sp"
+                android:text="@{modelData.temp}"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
                 tools:text="25 C" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 </layout>
