@@ -39,7 +39,7 @@ class MainRepositoryImpl(
         exclude: String?,
         longitude: Double,
         latitude: Double,
-        units: String?,
+        units: String,
     ): Response<WeatherSuccessResponse> {
         return api.getWeatherDetails(
             exclude = exclude,

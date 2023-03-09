@@ -44,10 +44,10 @@ data class HourlyModel(
 
 
 data class DailyModel(
-    val dt: String,
-    val image: String,
-    val max: String,
-    val min: String,
-    val desc: String,
+    var dt: String = "",
+    var image: String = "",
+    var max: String = "",
+    var min: String = "",
+    var desc: String = "",
 
     )

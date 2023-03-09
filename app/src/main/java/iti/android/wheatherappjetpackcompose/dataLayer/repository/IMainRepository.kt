@@ -19,6 +19,6 @@ interface IMainRepository {
         exclude: String? = null,
         longitude: Double,
         latitude: Double,
-        units: String? = null,
+        units: String,
     ): Response<WeatherSuccessResponse>
 }
