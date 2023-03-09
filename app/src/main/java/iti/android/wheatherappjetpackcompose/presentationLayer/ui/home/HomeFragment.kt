@@ -15,11 +15,13 @@ import iti.android.wheatherappjetpackcompose.dataLayer.repository.MainRepository
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.GeoCoderAPI
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.RetrofitInstance
+import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.Units
 import iti.android.wheatherappjetpackcompose.databinding.FragmentHomeBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeatherDetailsUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeUseCases
 import iti.android.wheatherappjetpackcompose.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.utils.Message
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -54,7 +56,7 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         val latLng = LatLng(30.61554342119405, 32.27797547385768)
-        //viewModel.getWeatherData(latLng, Units.standard.name)
+        viewModel.getWeatherData(latLng, Units.standard.name)
         binding.lifecycleOwner = this
         adapterHourly = HourlyAdapter()
         adapterDaily = DailyAdapter()
@@ -65,7 +67,16 @@ class HomeFragment : Fragment() {
             viewModel.state.collect { state ->
                 when (state) {
                     is DataResponseState.OnNothingData -> {}
-                    is DataResponseState.OnError -> {}
+                    is DataResponseState.OnError -> {
+                        binding.errorStateHolder.visibility = View.VISIBLE
+                        binding.dataStateHolder.visibility = View.GONE
+                        Message.snakeMessage(
+                            requireContext(),
+                            binding.homePageFrame,
+                            state.message,
+                            false
+                        ).show()
+                    }
                     is DataResponseState.OnSuccess -> {
                         dataVisible(true)
                         shimmerVisible(false)

@@ -5,33 +5,30 @@ import iti.android.wheatherappjetpackcompose.dataLayer.repository.IMainRepositor
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import iti.android.wheatherappjetpackcompose.utils.DataResponseState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 class GetWeatherDetailsUseCase(private val repository: IMainRepository) {
 
     operator fun invoke(latLng: LatLng, units: String) =
         flow<DataResponseState<WeatherDetailsModel>> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    emit(DataResponseState.OnLoading())
-                    val response = async {
+                    val response =
                         repository.getWeatherDetails(
                             longitude = latLng.longitude,
                             latitude = latLng.latitude,
                             units = units
                         )
-                    }
-                    if (response.await().isSuccessful) {
-                        val responseData = response.await().body()
-                        val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
-                        // Send Data to state
-                        emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
-                    }
 
-                }
+
+            if (response.isSuccessful) {
+                val responseData = response.body()
+                val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
+                // Send Data to state
+                emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
+            } else {
+                emit(DataResponseState.OnError(response.message()))
+            }
+
+
         }
 }
 
