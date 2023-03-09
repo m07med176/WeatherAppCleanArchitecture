@@ -1,50 +1,63 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.usecase.home
 
 import com.google.android.gms.maps.model.LatLng
+import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.IMainRepository
+import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Language
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
-import iti.android.wheatherappjetpackcompose.utils.DataResponseState
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class GetWeatherDetailsUseCase(private val repository: IMainRepository) {
+class GetWeatherDetailsUseCase(val repository: IMainRepository) {
 
-    operator fun invoke(latLng: LatLng, units: String) =
-        flow<DataResponseState<WeatherDetailsModel>> {
-            if (repository.checkInternetConnectivity()) {
-                val response =
-                    repository.getWeatherDetails(
-                        longitude = latLng.longitude,
-                        latitude = latLng.latitude,
-                        units = units
-                    )
+    operator fun invoke(latLng: LatLng): Flow<HomeResponseState<WeatherDetailsModel>> {
+        return repository.getSharedSettings().map { settings ->
 
-
-                if (response.isSuccessful) {
-                    val responseData = response.body()
-                    val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
-                    data.cityName = repository.getCityName(
-                        LatLng(
-                            data.lat?.toDouble() ?: 0.0,
-                            data.lon?.toDouble() ?: 0.0
+            if (settings.userLocation?.latitude == 0.0) {
+                HomeResponseState.OnNoLocationDetected<WeatherDetailsModel>()
+            } else {
+                if (repository.checkInternetConnectivity()) {
+                    val response =
+                        repository.getWeatherDetails(
+                            longitude = latLng.longitude,
+                            latitude = latLng.latitude,
+                            language = if (settings.language == Language.Arabic) Constants.ARABIC else Constants.ENGLISH
                         )
-                    )
 
-                    // Insert Data in Home Room
+                    if (response.isSuccessful) {
+                        val responseData = response.body()
+                        val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
+                        data.cityName = repository.getCityName(
+                            LatLng(
+                                data.lat?.toDouble() ?: 0.0,
+                                data.lon?.toDouble() ?: 0.0
+                            )
+                        )
+
+                        // Insert Data in Home Room
 //                    repository.insertHome(
 //                        WeatherDetailsCashMapper().entityFromMap(
 //                            responseData
 //                        )
 //                    )
-                    // Send Data to state
-                    emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
+                        // Send Data to state
+                        HomeResponseState.OnSuccess<WeatherDetailsModel>(data)
+                    } else {
+                        HomeResponseState.OnError(response.message())
+                    }
                 } else {
-                    emit(DataResponseState.OnError(response.message()))
+                    HomeResponseState.OnError("")
                 }
             }
-
         }
+    }
+
 }
+//        flow<HomeResponseState<WeatherDetailsModel>> {
+//
+//
+
 
 /*
 perator fun invoke(latLng: LatLng, units: String) =

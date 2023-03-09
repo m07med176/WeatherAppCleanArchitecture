@@ -2,6 +2,7 @@ package iti.android.wheatherappjetpackcompose.dataLayer.repository
 
 
 import com.google.android.gms.maps.model.LatLng
+import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.*
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +17,18 @@ interface IMainRepository {
     suspend fun deleteHome(home: HomeEntity)
 
     suspend fun getWeatherDetails(
-        exclude: String? = null,
         longitude: Double,
         latitude: Double,
-        units: String,
+        language: String,
     ): Response<WeatherSuccessResponse>
+
+
+    fun getSharedSettings(): Flow<Settings>
+
+    suspend fun updateTempraturSettings(temperature: Temperature)
+    suspend fun updateWindSpeedSettings(windSpeed: WindSpeed)
+    suspend fun updateLanguageSettings(language: Language)
+
+    suspend fun updateLocationProviderSettings(locationProvider: LocationProvider)
+    suspend fun updateUserLocationSettings(latLng: LatLng)
 }

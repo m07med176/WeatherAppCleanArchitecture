@@ -17,7 +17,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.Delete
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
-import iti.android.wheatherappjetpackcompose.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
 import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {

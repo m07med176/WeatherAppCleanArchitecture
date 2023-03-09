@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.utils
+package iti.android.wheatherappjetpackcompose.domainLayer.utils
 
 sealed class DataResponseState<T> {
     class OnSuccess<T>(var data: T) : DataResponseState<T>()

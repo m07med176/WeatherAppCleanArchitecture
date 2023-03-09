@@ -17,7 +17,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseC
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.DeleteAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.GetAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.InsertAlertsUseCase
-import iti.android.wheatherappjetpackcompose.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
 import kotlinx.coroutines.launch
 
 class AlertFragment : Fragment() {

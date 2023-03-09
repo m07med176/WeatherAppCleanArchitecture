@@ -14,6 +14,7 @@ interface NetworkAPI {
         @Query("lon") longitude: Double,
         @Query("lat") latitude: Double,
         @Query("units") units: String = Units.metric.name,
+        @Query("lang") language: String,
 
         ): Response<WeatherSuccessResponse>
 }

@@ -20,6 +20,9 @@
             app:destination="@id/settings_menu"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_home_menu_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
 
     <fragment

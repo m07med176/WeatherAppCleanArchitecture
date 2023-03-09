@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
-import iti.android.wheatherappjetpackcompose.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch

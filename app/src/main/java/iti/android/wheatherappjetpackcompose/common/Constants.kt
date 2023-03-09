@@ -18,4 +18,7 @@ object Constants {
     const val LOCATION_PROVIDER_SETTINGS_KEY_NAME = "LOCATION_PROVIDER_SETTINGS_KEY_NAME"
 
 
+    // Language Code
+    const val ARABIC = "ar"
+    const val ENGLISH = "en"
 }

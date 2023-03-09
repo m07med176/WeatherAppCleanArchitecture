@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
     private val viewModel: SettingsViewModel by lazy {
-        val cash = DataStoreManager(requireContext())
+        val cash = DataStoreManager.invoke(requireContext())
         val repository: ISettingsRepository = SettingsRepositoryImpl(cash)
         ViewModelProvider(
             requireActivity(),

@@ -12,9 +12,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-class DataStoreManager(private val context: Context) {
+class DataStoreManager private constructor(private val context: Context) {
+
     companion object {
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATASTORE_FILENAME)
+
+        @Volatile
+        private var instance: DataStoreManager? = null
+        private val LOCK = Any()
+
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            instance ?: createSingleton(context).also { instance = it }
+        }
+
+        private fun createSingleton(context: Context) = DataStoreManager(context)
     }
 
     // SETTINGS
