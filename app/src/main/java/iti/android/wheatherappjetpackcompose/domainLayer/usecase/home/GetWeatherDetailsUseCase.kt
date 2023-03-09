@@ -11,23 +11,37 @@ class GetWeatherDetailsUseCase(private val repository: IMainRepository) {
 
     operator fun invoke(latLng: LatLng, units: String) =
         flow<DataResponseState<WeatherDetailsModel>> {
-                    val response =
-                        repository.getWeatherDetails(
-                            longitude = latLng.longitude,
-                            latitude = latLng.latitude,
-                            units = units
+            if (repository.checkInternetConnectivity()) {
+                val response =
+                    repository.getWeatherDetails(
+                        longitude = latLng.longitude,
+                        latitude = latLng.latitude,
+                        units = units
+                    )
+
+
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+                    val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
+                    data.cityName = repository.getCityName(
+                        LatLng(
+                            data.lat?.toDouble() ?: 0.0,
+                            data.lon?.toDouble() ?: 0.0
                         )
+                    )
 
-
-            if (response.isSuccessful) {
-                val responseData = response.body()
-                val data = WeatherDetailsMapper().mapFromEntity(responseData!!)
-                // Send Data to state
-                emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
-            } else {
-                emit(DataResponseState.OnError(response.message()))
+                    // Insert Data in Home Room
+//                    repository.insertHome(
+//                        WeatherDetailsCashMapper().entityFromMap(
+//                            responseData
+//                        )
+//                    )
+                    // Send Data to state
+                    emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
+                } else {
+                    emit(DataResponseState.OnError(response.message()))
+                }
             }
-
 
         }
 }

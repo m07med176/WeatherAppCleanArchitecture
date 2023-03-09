@@ -14,12 +14,12 @@ fun dayConverterToString(dt: Int): String? {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun timeConverterToString(dt: Int): String? {
+fun timeConverterToString(dt: Double): String? {
     val timeStamp = dt.times(1000)
     return SimpleDateFormat(TIME_PATTERN).format(timeStamp)
 }
 
-fun dateTimeConverterTimestampToString(dt: Int): String? {
+fun dateTimeConverterTimestampToString(dt: Double): String? {
     val timeStamp = dt.times(1000)
     return SimpleDateFormat(DATETIME_PATTERN).format(timeStamp)
 }

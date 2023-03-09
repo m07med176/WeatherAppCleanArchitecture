@@ -40,7 +40,7 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
         return WeatherDetailsModel(
             currentModel = CurrentModel(
                 clouds = currentEntity.clouds.toString(),
-                dt = dateTimeConverterTimestampToString(currentEntity.dt ?: 0) ?: "",
+                dt = dateTimeConverterTimestampToString(currentEntity.dt ?: 0.0) ?: "",
                 weather = currentEntity.weather,
                 wind_gust = currentEntity.wind_gust.toString(),
                 wind_deg = currentEntity.wind_deg.toString(),
