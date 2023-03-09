@@ -41,7 +41,7 @@ class AlertFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alert, container, false)
-
+        binding.lifecycleOwner = this
         viewModel.getAlertsList()
 
 

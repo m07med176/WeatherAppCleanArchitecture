@@ -43,7 +43,7 @@ class FavoriteFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
-
+        binding.lifecycleOwner = this
         viewModel.getFavPlacesData()
         val adapter = FavoriteAdapter(FavoriteAdapter.ItemOnCLickListener {})
         lifecycleScope.launch {
