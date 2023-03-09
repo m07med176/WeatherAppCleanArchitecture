@@ -18,6 +18,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.Favori
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.utils.findNavController
 import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
@@ -44,8 +45,13 @@ class FavoriteFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
         binding.lifecycleOwner = this
+        binding.addFavoriteBtn.setOnClickListener {
+            findNavController(requireActivity())?.navigate(R.id.action_favorite_menu_to_mapFragment)
+        }
         viewModel.getFavPlacesData()
-        val adapter = FavoriteAdapter(FavoriteAdapter.ItemOnCLickListener {})
+        val adapter = FavoriteAdapter(FavoriteAdapter.ItemOnCLickListener {
+            findNavController(requireActivity())?.navigate(R.id.action_favorite_menu_to_details_menu)
+        })
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
