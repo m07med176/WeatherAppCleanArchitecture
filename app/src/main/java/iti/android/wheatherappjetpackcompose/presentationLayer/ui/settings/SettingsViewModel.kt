@@ -46,10 +46,10 @@ class SettingsViewModel(private val repository: ISettingsRepository) : ViewModel
         var windSpeed = WindSpeed.Meter
         when (id) {
             R.id.milesSelectedRadio -> {
-                windSpeed = WindSpeed.Meter
+                windSpeed = WindSpeed.Miles
             }
             R.id.meterSelectedRadio -> {
-                windSpeed = WindSpeed.Miles
+                windSpeed = WindSpeed.Meter
             }
         }
         viewModelScope.launch { repository.updateWindSpeedSettings(windSpeed) }

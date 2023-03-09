@@ -21,7 +21,7 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun updateLanguageSettings(language: Language) {
-        updateLanguageSettings(language)
+        cash.updateLanguageSettings(language)
     }
 
     override suspend fun updateLocationProviderSettings(locationProvider: LocationProvider) {
