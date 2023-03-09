@@ -15,7 +15,6 @@ import iti.android.wheatherappjetpackcompose.dataLayer.repository.MainRepository
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.GeoCoderAPI
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.RetrofitInstance
-import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.Units
 import iti.android.wheatherappjetpackcompose.databinding.FragmentHomeBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeatherDetailsUseCase
@@ -55,7 +54,7 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         val latLng = LatLng(30.61554342119405, 32.27797547385768)
-        viewModel.getWeatherData(latLng, Units.standard.name)
+        //viewModel.getWeatherData(latLng, Units.standard.name)
         binding.lifecycleOwner = this
         adapterHourly = HourlyAdapter()
         adapterDaily = DailyAdapter()

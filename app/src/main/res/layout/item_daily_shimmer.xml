@@ -17,8 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textSize="15sp"
-            android:text="@string/loading" />
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/loading"
+            android:textSize="15sp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
@@ -38,6 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textSize="18sp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@string/loading" />
 
         <TextView
@@ -45,6 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textSize="15sp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@string/loading" />
 
         <TextView
@@ -53,6 +59,8 @@
             android:layout_margin="8dp"
             android:gravity="center"
             android:textSize="15sp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@string/loading" />
 
     </LinearLayout>

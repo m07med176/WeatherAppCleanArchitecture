@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/shimmer_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:shimmer_auto_start="true">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/measurementsHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -167,6 +165,4 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-
 </com.facebook.shimmer.ShimmerFrameLayout>
