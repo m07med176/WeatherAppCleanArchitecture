@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.map
 
 
 class DataStoreManager(private val context: Context) {
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATASTORE_FILENAME)
+    companion object {
+        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATASTORE_FILENAME)
+    }
 
     // SETTINGS
     private val LANGUAGE_SETTINGS_KEY = stringPreferencesKey(Constants.LANGUAGE_SETTINGS_KEY_NAME)

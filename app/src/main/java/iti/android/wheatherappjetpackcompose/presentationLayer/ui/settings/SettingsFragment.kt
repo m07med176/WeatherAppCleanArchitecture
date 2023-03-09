@@ -13,8 +13,6 @@ import iti.android.wheatherappjetpackcompose.dataLayer.repository.ISettingsRepos
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.SettingsRepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.DataStoreManager
 import iti.android.wheatherappjetpackcompose.databinding.FragmentSettingsBinding
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.settings.GetSharedSettings
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.settings.SettingsUseCases
 import iti.android.wheatherappjetpackcompose.utils.toast
 import kotlinx.coroutines.launch
 
@@ -24,12 +22,9 @@ class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by lazy {
         val cash = DataStoreManager(requireContext())
         val repository: ISettingsRepository = SettingsRepositoryImpl(cash)
-        val useCases = SettingsUseCases(
-            getSharedSettings = GetSharedSettings(repository)
-        )
         ViewModelProvider(
             requireActivity(),
-            SettingsViewModelFactory(useCases)
+            SettingsViewModelFactory(repository)
         )[SettingsViewModel::class.java]
     }
 
@@ -40,10 +35,14 @@ class SettingsFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
 
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         viewModel.getSettingsData()
+
+
 
         lifecycleScope.launch {
             viewModel.settings.collect {
+                binding.settings = it
                 it.toString().toast(requireContext())
             }
         }

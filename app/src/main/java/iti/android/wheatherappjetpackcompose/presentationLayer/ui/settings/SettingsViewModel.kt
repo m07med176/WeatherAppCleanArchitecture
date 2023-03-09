@@ -1,15 +1,16 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer.ui.settings
 
-import android.util.Log
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Settings
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.settings.SettingsUseCases
+import iti.android.wheatherappjetpackcompose.R
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.ISettingsRepository
+import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val settingsUseCases: SettingsUseCases) : ViewModel() {
+class SettingsViewModel(private val repository: ISettingsRepository) : ViewModel() {
 
     private var _settings = MutableStateFlow(Settings())
     val settings: StateFlow<Settings>
@@ -17,14 +18,71 @@ class SettingsViewModel(private val settingsUseCases: SettingsUseCases) : ViewMo
 
     fun getSettingsData() {
         viewModelScope.launch {
-            settingsUseCases.getSharedSettings.invoke().collect {
+            repository.getSharedSettings().collect {
                 _settings.value = it
             }
         }
     }
 
 
-    fun saveTemperature(id: Int) {
-        Log.d("TAGooo", "saveTemperature: $id")
+    fun saveTemperature(@IdRes id: Int) {
+        var temperature: Temperature = Temperature.Celsius
+        when (id) {
+            R.id.kelvinSelectedRadio -> {
+                temperature = Temperature.Kelvin
+            }
+            R.id.celsiusSelectedRadio -> {
+                temperature = Temperature.Celsius
+            }
+            R.id.fahrenhiteSelectedRadio -> {
+                temperature = Temperature.Fahrenheit
+            }
+        }
+
+        viewModelScope.launch { repository.updateTempraturSettings(temperature) }
+    }
+
+    fun saveWindSpeed(@IdRes id: Int) {
+        var windSpeed = WindSpeed.Meter
+        when (id) {
+            R.id.milesSelectedRadio -> {
+                windSpeed = WindSpeed.Meter
+            }
+            R.id.meterSelectedRadio -> {
+                windSpeed = WindSpeed.Miles
+            }
+        }
+        viewModelScope.launch { repository.updateWindSpeedSettings(windSpeed) }
+
+
+    }
+
+    fun saveLocationProvider(@IdRes id: Int) {
+        var locationProvider = LocationProvider.Nothing
+        when (id) {
+            R.id.gpsSelectedRadio -> {
+                locationProvider = LocationProvider.GPS
+            }
+            R.id.mapSelectedRadio -> {
+                locationProvider = LocationProvider.MAP
+            }
+        }
+
+        viewModelScope.launch { repository.updateLocationProviderSettings(locationProvider) }
+
+    }
+
+    fun saveLanguage(@IdRes id: Int) {
+        var language = Language.English
+        when (id) {
+            R.id.arabicSelectedRadio -> {
+                language = Language.Arabic
+            }
+            R.id.englishSelectedRadio -> {
+                language = Language.English
+            }
+        }
+        viewModelScope.launch { repository.updateLanguageSettings(language) }
+
     }
 }
