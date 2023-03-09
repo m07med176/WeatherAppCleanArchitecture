@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
-                        android:text="@string/by_gps_btn" />
+                        android:text="@string/by_gps" />
 
                     <Button
                         android:id="@+id/locationBtn"
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="0.5"
-                        android:text="@string/by_location_btn" />
+                        android:text="@string/by_location" />
 
 
                 </LinearLayout>

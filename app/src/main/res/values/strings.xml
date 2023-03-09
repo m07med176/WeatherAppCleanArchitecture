@@ -30,11 +30,14 @@
     <string name="rb_notification">Notification</string>
     <string name="btn_save_alert">Save</string>
     <string name="ask_location_message">Please Allow us to know your location</string>
-    <string name="by_gps_btn">By GPS</string>
-    <string name="by_location_btn">By Location</string>
+
     <string name="degree" translatable="false">%s&#xb0;</string>
     <string name="feels_like">feels like %s&#xb0;</string>
     <string name="loading">Loading ..</string>
     <string name="tv_cloud">Cloud</string>
+    <string name="tv_location">Location</string>
     <!--    <string name="shoe_size">SIZE: %.1f</string>-->
+
+    <string name="by_gps">By GPS</string>
+    <string name="by_location">By Location</string>
 </resources>
