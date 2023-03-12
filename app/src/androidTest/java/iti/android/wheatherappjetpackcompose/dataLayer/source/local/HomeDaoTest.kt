@@ -9,6 +9,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Current
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.HomeDao
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest

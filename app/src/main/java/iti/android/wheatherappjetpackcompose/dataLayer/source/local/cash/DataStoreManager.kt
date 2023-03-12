@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.dataLayer.source.cash
+package iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash
 
 import android.content.Context
 import androidx.datastore.core.DataStore

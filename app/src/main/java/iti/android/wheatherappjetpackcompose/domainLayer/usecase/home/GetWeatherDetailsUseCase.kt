@@ -2,14 +2,14 @@ package iti.android.wheatherappjetpackcompose.domainLayer.usecase.home
 
 import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.common.Constants
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.IMainRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Language
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Language
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetWeatherDetailsUseCase(val repository: IMainRepository) {
+class GetWeatherDetailsUseCase(val repository: RepositoryInterface) {
 
     operator fun invoke(latLng: LatLng): Flow<HomeResponseState<WeatherDetailsModel>> {
         return repository.getSharedSettings().map { settings ->

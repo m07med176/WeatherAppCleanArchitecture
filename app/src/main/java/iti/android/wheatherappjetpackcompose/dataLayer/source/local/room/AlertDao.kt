@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.dataLayer.source.local
+package iti.android.wheatherappjetpackcompose.dataLayer.source.local.room
 
 
 import androidx.room.*

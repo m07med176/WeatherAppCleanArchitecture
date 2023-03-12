@@ -6,6 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.FavoriteDao
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest

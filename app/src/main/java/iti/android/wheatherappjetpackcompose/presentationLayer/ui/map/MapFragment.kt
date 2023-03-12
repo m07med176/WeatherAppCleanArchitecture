@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,14 +27,12 @@ import iti.android.wheatherappjetpackcompose.R
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var viewModel: MapViewModel
     private lateinit var mMap: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
 
 
         return inflater.inflate(R.layout.fragment_map, container, false)

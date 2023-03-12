@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.dataLayer.source.remote
+package iti.android.wheatherappjetpackcompose.dataLayer.source.remote.geoCoder
 
 import android.content.Context
 import android.location.Geocoder

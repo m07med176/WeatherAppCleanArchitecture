@@ -20,12 +20,8 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.IMainRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.MainRepositoryImpl
-import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.DataStoreManager
-import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
-import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.GeoCoderAPI
-import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.RetrofitInstance
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentHomeBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeatherDetailsUseCase
@@ -48,17 +44,9 @@ class HomeFragment : Fragment() {
     // TODO refactoring GPS location
 
     private val viewModel: HomeViewModel by lazy {
-        val db = RoomDB.invoke(requireContext()).homeDao()
-        val retrofit = RetrofitInstance(requireContext())
-        val geocoder = GeoCoderAPI(requireContext())
-        val cash = DataStoreManager.invoke(requireContext())
-        val repository: IMainRepository = MainRepositoryImpl(
-            dao = db,
-            geoCoderAPI = geocoder,
-            retrofitInstance = retrofit,
-            cash = cash
+        val repository: RepositoryInterface =
+            RepositoryImpl.getInstance(requireActivity().application)
 
-        )
         val useCases = HomeUseCases(
             getWeatherDetailsUseCase = GetWeatherDetailsUseCase(repository),
             updateGPSLocation = UpdateGPSLocationUseCase(repository)

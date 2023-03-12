@@ -10,23 +10,23 @@
 
         <variable
             name="settings"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Settings" />
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Settings" />
 
         <variable
             name="language"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Language" />
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Language" />
 
         <variable
             name="locationProvider"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.cash.LocationProvider" />
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.LocationProvider" />
 
         <variable
             name="windSpeed"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.cash.WindSpeed" />
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.WindSpeed" />
 
         <variable
             name="temperature"
-            type="iti.android.wheatherappjetpackcompose.dataLayer.source.cash.Temperature" />
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Temperature" />
 
     </data>
 

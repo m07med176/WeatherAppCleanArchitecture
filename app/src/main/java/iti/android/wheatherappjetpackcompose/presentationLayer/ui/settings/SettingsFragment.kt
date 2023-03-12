@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.ISettingsRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.SettingsRepositoryImpl
-import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.DataStoreManager
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentSettingsBinding
 import iti.android.wheatherappjetpackcompose.utils.toast
 import kotlinx.coroutines.launch
@@ -20,8 +19,8 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
     private val viewModel: SettingsViewModel by lazy {
-        val cash = DataStoreManager.invoke(requireContext())
-        val repository: ISettingsRepository = SettingsRepositoryImpl(cash)
+        val repository: RepositoryInterface =
+            RepositoryImpl.getInstance(requireActivity().application)
         ViewModelProvider(
             requireActivity(),
             SettingsViewModelFactory(repository)

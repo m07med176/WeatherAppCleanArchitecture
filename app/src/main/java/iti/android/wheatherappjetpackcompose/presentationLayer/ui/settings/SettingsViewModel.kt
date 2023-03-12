@@ -4,13 +4,13 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.ISettingsRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.source.cash.*
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val repository: ISettingsRepository) : ViewModel() {
+class SettingsViewModel(private val repository: RepositoryInterface) : ViewModel() {
 
     private var _settings = MutableStateFlow(Settings())
     val settings: StateFlow<Settings>

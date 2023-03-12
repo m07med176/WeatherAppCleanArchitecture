@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.dataLayer.source.remote
+package iti.android.wheatherappjetpackcompose.dataLayer.source.remote.retrofite
 
 import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse

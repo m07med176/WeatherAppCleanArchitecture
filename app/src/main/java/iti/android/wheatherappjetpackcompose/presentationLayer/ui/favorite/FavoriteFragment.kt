@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.FavoriteRepositoryImpl
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.IFavoriteRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentFavoriteBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
@@ -25,8 +24,8 @@ class FavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoriteBinding
     private val viewModel: FavoriteViewModel by lazy {
-        val db = RoomDB.invoke(requireContext()).favoriteDao()
-        val repository: IFavoriteRepository = FavoriteRepositoryImpl(db)
+        val repository: RepositoryInterface =
+            RepositoryImpl.getInstance(requireActivity().application)
         val useCases = FavoriteUseCases(
             deleteFavorite = DeleteFavoriteUseCase(repository),
             insertFavorite = InsertFavoriteUseCase(repository),

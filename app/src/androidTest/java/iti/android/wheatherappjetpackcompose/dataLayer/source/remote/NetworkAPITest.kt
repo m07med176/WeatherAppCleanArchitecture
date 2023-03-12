@@ -5,6 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import iti.android.wheatherappjetpackcompose.MainCoroutineRule
+import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.retrofite.NetworkAPI
+import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.retrofite.RetrofitInstance
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before

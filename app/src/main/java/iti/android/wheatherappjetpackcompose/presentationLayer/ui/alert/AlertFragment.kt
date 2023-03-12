@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.AlertRepositoryImpl
-import iti.android.wheatherappjetpackcompose.dataLayer.repository.IAlertRepository
-import iti.android.wheatherappjetpackcompose.dataLayer.source.local.RoomDB
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentAlertBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.DeleteAlertUseCase
@@ -23,8 +22,9 @@ import kotlinx.coroutines.launch
 class AlertFragment : Fragment() {
     private lateinit var binding: FragmentAlertBinding
     private val viewModel: AlertViewModel by lazy {
-        val db = RoomDB.invoke(requireContext()).alertDao()
-        val repository: IAlertRepository = AlertRepositoryImpl(db)
+
+        val repository: RepositoryInterface =
+            RepositoryImpl.getInstance(requireActivity().application)
         val useCases = AlertUseCases(
             getAlert = GetAlertUseCase(repository),
             insertAlert = InsertAlertsUseCase(repository),

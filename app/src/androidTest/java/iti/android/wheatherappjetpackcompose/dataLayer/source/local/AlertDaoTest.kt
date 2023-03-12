@@ -7,6 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alert
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.AlertDao
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
