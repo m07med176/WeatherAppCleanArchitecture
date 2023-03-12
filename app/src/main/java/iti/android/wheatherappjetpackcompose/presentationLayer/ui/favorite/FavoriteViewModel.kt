@@ -28,4 +28,16 @@ class FavoriteViewModel(private val userCases: FavoriteUseCases) : ViewModel() {
             }
         }
     }
+
+    fun insetFavoriteItem(favPlacesModel: FavPlacesModel) {
+        viewModelScope.launch {
+            userCases.insertFavorite.invoke(favPlacesModel)
+        }
+    }
+
+    fun deleteFavoriteItem(favPlacesModel: FavPlacesModel) {
+        viewModelScope.launch {
+            userCases.deleteFavorite.invoke(favPlacesModel)
+        }
+    }
 }

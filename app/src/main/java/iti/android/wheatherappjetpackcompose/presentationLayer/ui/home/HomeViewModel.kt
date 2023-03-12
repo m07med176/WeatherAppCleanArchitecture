@@ -18,7 +18,7 @@ class HomeViewModel(private val useCases: HomeUseCases) : ViewModel() {
     val state: StateFlow<HomeResponseState<WeatherDetailsModel>>
         get() = _state
 
-    fun getWeatherData(latLng: LatLng) {
+    fun getWeatherData(latLng: LatLng? = null) {
         viewModelScope.launch {
             useCases.getWeatherDetailsUseCase.invoke(latLng).collect {
                 _state.value = it

@@ -21,4 +21,7 @@ object Constants {
     // Language Code
     const val ARABIC = "ar"
     const val ENGLISH = "en"
+
+    // Var Args
+    const val FAV_ITEM = "favoriteItem"
 }

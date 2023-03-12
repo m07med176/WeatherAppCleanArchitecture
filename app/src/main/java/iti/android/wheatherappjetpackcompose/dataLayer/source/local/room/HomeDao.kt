@@ -10,7 +10,7 @@ interface HomeDao {
     @Query("SELECT * FROM home_table ORDER BY id DESC LIMIT 1")
     fun getHome(): Flow<HomeEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertHome(home: HomeEntity)
 
     @Delete

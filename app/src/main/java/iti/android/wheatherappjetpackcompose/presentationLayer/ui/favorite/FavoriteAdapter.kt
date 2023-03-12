@@ -37,8 +37,10 @@ class FavoriteAdapter(
 
     class ItemOnCLickListener(
         val clickListener: (model: FavPlacesModel) -> Unit,
+        val onDeleteClicked: (model: FavPlacesModel) -> Unit,
     ) {
         fun onClick(model: FavPlacesModel) = clickListener(model)
+        fun onDeleteClick(model: FavPlacesModel) = onDeleteClicked(model)
     }
 
     class FavPlaceDiffCallback : DiffUtil.ItemCallback<FavPlacesModel>() {

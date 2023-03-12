@@ -6,6 +6,10 @@ import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 
 class InsertFavoriteUseCase(private val repository: RepositoryInterface) {
     suspend operator fun invoke(favPlacesModel: FavPlacesModel) {
-        repository.insertFavorite(FavPlacesMapper().entityFromMap(favPlacesModel))
+        val cityName = repository.getCityName(favPlacesModel.location)
+        val favPlace = favPlacesModel.copy(
+            city = cityName
+        )
+        repository.insertFavorite(FavPlacesMapper().entityFromMap(favPlace))
     }
 }

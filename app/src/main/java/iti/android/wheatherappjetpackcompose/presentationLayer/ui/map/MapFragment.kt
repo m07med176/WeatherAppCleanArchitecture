@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -24,8 +26,32 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import iti.android.wheatherappjetpackcompose.BuildConfig
 import iti.android.wheatherappjetpackcompose.R
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
+import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
+import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModel
+import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModelFactory
+
 
 class MapFragment : Fragment(), OnMapReadyCallback {
+
+    private val viewModel: FavoriteViewModel by lazy {
+        val repository: RepositoryInterface =
+            RepositoryImpl.getInstance(requireActivity().application)
+        val useCases = FavoriteUseCases(
+            deleteFavorite = DeleteFavoriteUseCase(repository),
+            insertFavorite = InsertFavoriteUseCase(repository),
+            getFavoritesUseCase = GetFavoritesUseCase(repository)
+        )
+        ViewModelProvider(
+            requireActivity(),
+            FavoriteViewModelFactory(useCases)
+        )[FavoriteViewModel::class.java]
+    }
 
     private lateinit var mMap: GoogleMap
 
@@ -52,7 +78,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             mMap.isMyLocationEnabled = true
         }
         mMap.setOnMarkerClickListener {
-            checkSaveToFavorite()
+            checkSaveToFavorite(it.position)
             true
         }
 
@@ -67,13 +93,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    fun checkSaveToFavorite() {
+    fun checkSaveToFavorite(latLng: LatLng) {
         val alert: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
 
         alert.setTitle("Favorite")
 
         alert.setMessage("Do You want to save this place on favorite")
         alert.setPositiveButton("Save") { _: DialogInterface, _: Int ->
+            viewModel.insetFavoriteItem(FavPlacesModel(location = latLng))
             Toast.makeText(requireContext(), "Data has been saved", Toast.LENGTH_SHORT).show()
 
         }

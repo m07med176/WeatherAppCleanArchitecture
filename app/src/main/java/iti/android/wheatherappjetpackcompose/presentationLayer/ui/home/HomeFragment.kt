@@ -20,9 +20,11 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.R
+import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentHomeBinding
+import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeatherDetailsUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeResponseState
@@ -66,7 +68,15 @@ class HomeFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
         val latLng = LatLng(30.61554342119405, 32.27797547385768)
-        viewModel.getWeatherData(latLng)
+        val bundle = arguments
+        if (bundle != null) {
+            val favoriteItem = bundle.getSerializable(Constants.FAV_ITEM) as FavPlacesModel
+            viewModel.getWeatherData(favoriteItem.location)
+        } else {
+            viewModel.getWeatherData(latLng)
+
+        }
+
         binding.lifecycleOwner = this
         adapterHourly = HourlyAdapter()
         adapterDaily = DailyAdapter()
@@ -161,7 +171,7 @@ class HomeFragment : Fragment() {
             }
     }
 
-    fun requestPermission() {
+    private fun requestPermission() {
         ActivityCompat.requestPermissions(
             requireActivity(), listOf(
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -170,7 +180,7 @@ class HomeFragment : Fragment() {
         )
     }
 
-    fun checkPermission(): Boolean {
+    private fun checkPermission(): Boolean {
         val fineLoation = ActivityCompat.checkSelfPermission(
             requireContext(),
             android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -183,7 +193,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun isEnapledLocation(): Boolean {
+    private fun isEnapledLocation(): Boolean {
         val locationManager =
             requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return LocationManagerCompat.isLocationEnabled(locationManager)

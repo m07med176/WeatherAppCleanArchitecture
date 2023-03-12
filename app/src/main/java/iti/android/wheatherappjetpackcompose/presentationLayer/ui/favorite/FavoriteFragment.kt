@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
+import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentFavoriteBinding
+import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
@@ -40,17 +42,23 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
         binding.lifecycleOwner = this
         binding.addFavoriteBtn.setOnClickListener {
             findNavController(requireActivity())?.navigate(R.id.action_favorite_menu_to_mapFragment)
         }
+
+
         viewModel.getFavPlacesData()
-        val adapter = FavoriteAdapter(FavoriteAdapter.ItemOnCLickListener {
-            findNavController(requireActivity())?.navigate(R.id.action_favorite_menu_to_details_menu)
-        })
+        val adapter = FavoriteAdapter(
+            FavoriteAdapter.ItemOnCLickListener(
+                ::onItemClickedToNavigate,
+                ::onItemDeleted
+            )
+        )
+        binding.mAdapter = adapter
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
@@ -85,5 +93,18 @@ class FavoriteFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun onItemDeleted(favPlacesModel: FavPlacesModel) {
+        viewModel.deleteFavoriteItem(favPlacesModel)
+    }
+
+    private fun onItemClickedToNavigate(favPlacesModel: FavPlacesModel) {
+        val bundle = Bundle()
+        bundle.putSerializable(Constants.FAV_ITEM, favPlacesModel)
+        findNavController(requireActivity())?.navigate(
+            R.id.action_favorite_menu_to_details_menu,
+            bundle
+        )
     }
 }
