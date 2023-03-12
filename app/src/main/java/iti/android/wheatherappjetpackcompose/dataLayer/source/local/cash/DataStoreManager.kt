@@ -1,21 +1,34 @@
 package iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.gms.maps.model.LatLng
-import iti.android.wheatherappjetpackcompose.common.Constants
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.LocaleUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
+// Datastore and SharedPreferance
+const val DATASTORE_FILENAME = "datastore"
+const val USER_LOCATION_SETTINGS_KEY_NAME = "USER_LOCATION_SETTINGS_KEY_NAME"
+const val LANGUAGE_SETTINGS_KEY_NAME = "LANGUAGE_SETTINGS_KEY_NAME"
+const val TEMPERATURE_SETTINGS_KEY_NAME = "TEMPERATURE_SETTINGS_KEY_NAME"
+const val WIND_SPEED_SETTINGS_KEY_NAME = "WIND_SPEED_SETTINGS_KEY_NAME"
+const val LOCATION_PROVIDER_SETTINGS_KEY_NAME = "LOCATION_PROVIDER_SETTINGS_KEY_NAME"
+const val SHARED_PREF = "SHARED_PREF"
+const val PREFERRED_LANGUAGE = "PREFERRED_LANGUAGE"
+
 class DataStoreManager private constructor(private val context: Context) {
+    private var preferences: SharedPreferences =
+        context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
 
     companion object {
-        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATASTORE_FILENAME)
+        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_FILENAME)
 
         @Volatile
         private var instance: DataStoreManager? = null
@@ -29,15 +42,15 @@ class DataStoreManager private constructor(private val context: Context) {
     }
 
     // SETTINGS
-    private val LANGUAGE_SETTINGS_KEY = stringPreferencesKey(Constants.LANGUAGE_SETTINGS_KEY_NAME)
+    private val LANGUAGE_SETTINGS_KEY = stringPreferencesKey(LANGUAGE_SETTINGS_KEY_NAME)
     private val TEMPERATURE_SETTINGS_KEY =
-        stringPreferencesKey(Constants.TEMPERATURE_SETTINGS_KEY_NAME)
+        stringPreferencesKey(TEMPERATURE_SETTINGS_KEY_NAME)
     private val WIND_SPEED_SETTINGS_KEY =
-        stringPreferencesKey(Constants.WIND_SPEED_SETTINGS_KEY_NAME)
+        stringPreferencesKey(WIND_SPEED_SETTINGS_KEY_NAME)
     private val LOCATION_PROVIDER_SETTINGS_KEY =
-        stringPreferencesKey(Constants.LOCATION_PROVIDER_SETTINGS_KEY_NAME)
+        stringPreferencesKey(LOCATION_PROVIDER_SETTINGS_KEY_NAME)
     private val USER_LOCATION_SETTINGS_KEY =
-        stringPreferencesKey(Constants.USER_LOCATION_SETTINGS_KEY_NAME)
+        stringPreferencesKey(USER_LOCATION_SETTINGS_KEY_NAME)
 
     fun getSharedSettings(): Flow<Settings> {
         return context.dataStore.data.map { preferences ->
@@ -91,4 +104,12 @@ class DataStoreManager private constructor(private val context: Context) {
         }
     }
 
+
+    fun getPreferredLocale(): String {
+        return preferences.getString(PREFERRED_LANGUAGE, LocaleUtil.OPTION_PHONE_LANGUAGE)!!
+    }
+
+    fun setPreferredLocale(localeCode: String) {
+        preferences.edit().putString(PREFERRED_LANGUAGE, localeCode).apply()
+    }
 }

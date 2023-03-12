@@ -73,4 +73,12 @@ class LocalDataSource(
     override suspend fun updateUserLocationSettings(latLng: LatLng) {
         cash.updateUserLocationSettings(latLng)
     }
+
+    override fun getPreferredLocale(): String {
+        return cash.getPreferredLocale()
+    }
+
+    override fun setPreferredLocale(localeCode: String) {
+        cash.setPreferredLocale(localeCode)
+    }
 }

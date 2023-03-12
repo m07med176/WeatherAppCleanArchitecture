@@ -64,7 +64,12 @@
         android:id="@+id/mapFragment"
         android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <argument
+            android:name="MAP_DESTINATION"
+            android:defaultValue="HOME"
+            app:argType="iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.SplashFragment"

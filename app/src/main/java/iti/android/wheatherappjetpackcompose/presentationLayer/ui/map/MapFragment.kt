@@ -1,51 +1,68 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer.ui.map
 
 import android.Manifest
-import android.app.AlertDialog
-import android.content.DialogInterface
+import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import iti.android.wheatherappjetpackcompose.BuildConfig
 import iti.android.wheatherappjetpackcompose.R
+import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.*
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModel
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModelFactory
+import iti.android.wheatherappjetpackcompose.utils.Message
+import iti.android.wheatherappjetpackcompose.utils.findNavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+
+const val ZOOM_LEVEL = 15f
+private const val TAG = "MapFragment"
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
+    private var chosenLocation: LatLng? = null
+    private lateinit var view: View
+    private lateinit var destination: MapDestination
+    private lateinit var buttonSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var buttomSheet: ConstraintLayout
     private val viewModel: FavoriteViewModel by lazy {
         val repository: RepositoryInterface =
             RepositoryImpl.getInstance(requireActivity().application)
         val useCases = FavoriteUseCases(
             deleteFavorite = DeleteFavoriteUseCase(repository),
             insertFavorite = InsertFavoriteUseCase(repository),
-            getFavoritesUseCase = GetFavoritesUseCase(repository)
+            getFavoritesUseCase = GetFavoritesUseCase(repository),
+            getSettingsUseCase = GetSettingsUseCase(repository)
         )
         ViewModelProvider(
             requireActivity(),
@@ -55,17 +72,75 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    private fun buttomSheetSettings() {
+        buttomSheet = view.findViewById(R.id.bottomSheet)
+        buttonSheetBehavior = BottomSheetBehavior.from(buttomSheet)
+        buttonSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> {}
+                    BottomSheetBehavior.STATE_COLLAPSED -> {}
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
 
+        view = inflater.inflate(R.layout.fragment_map, container, false)
+        destination = arguments?.getSerializable(Constants.MAP_DESTINATION) as MapDestination
 
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        buttomSheetSettings()
+        saveButtonHandler()
+        return view
+    }
+
+    private fun saveButtonHandler() {
+        val saveButton: Button = view.findViewById(R.id.saveLocationBtn)
+        saveButton.setOnClickListener {
+            when (destination) {
+                MapDestination.FAVORITE -> {
+                    chosenLocation?.let {
+                        viewModel.insetFavoriteItem(FavPlacesModel(location = chosenLocation!!))
+                        Message.snakeMessageCo(
+                            requireContext(),
+                            buttomSheet,
+                            getString(R.string.save_favorite_message),
+                            true
+                        ).show()
+                        lifecycleScope
+                            .launch {
+                                delay(500)
+                                findNavController(requireActivity())?.popBackStack()
+                            }
+                    }
+                }
+                MapDestination.HOME -> {}
+                MapDestination.SETTINGS -> {}
+            }
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
         mMap = map
+
+        lifecycleScope.launch {
+            viewModel.getCurrentLocation()?.collect { latLng ->
+                mMap.addMarker(
+                    MarkerOptions()
+                        .position(latLng)
+                )
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL))
+            }
+        }
+        setMapStyle(mMap, requireContext())
         if (!(ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -77,40 +152,38 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         ) {
             mMap.isMyLocationEnabled = true
         }
+
+        onClickMapEvents()
+    }
+
+    private fun onClickMapEvents() {
         mMap.setOnMarkerClickListener {
-            checkSaveToFavorite(it.position)
+            chosenLocation = it.position
+            buttonSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             true
         }
 
-        mMap.setOnMapClickListener { latLng ->
+        mMap.setOnMapLongClickListener { latLng ->
             mMap.addMarker(
                 MarkerOptions()
                     .position(latLng)
-//                    .title(place.name))
             )
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL))
+        }
+        mMap.setOnMapClickListener { latLng ->
+            buttonSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        mMap.setOnPoiClickListener {
+            mMap.addMarker(
+                MarkerOptions()
+                    .title(it.name)
+                    .position(it.latLng)
+            )
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.latLng, ZOOM_LEVEL))
         }
     }
 
-
-    fun checkSaveToFavorite(latLng: LatLng) {
-        val alert: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
-
-        alert.setTitle("Favorite")
-
-        alert.setMessage("Do You want to save this place on favorite")
-        alert.setPositiveButton("Save") { _: DialogInterface, _: Int ->
-            viewModel.insetFavoriteItem(FavPlacesModel(location = latLng))
-            Toast.makeText(requireContext(), "Data has been saved", Toast.LENGTH_SHORT).show()
-
-        }
-        alert.setNegativeButton("No") { _: DialogInterface, _: Int ->
-//              dialog.dismiss()
-        }
-        val dialog = alert.create()
-        dialog.show()
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -118,6 +191,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             .findFragmentById(R.id.mMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        autoCompletePlacesAPI()
+    }
+
+    private fun autoCompletePlacesAPI() {
         val apiKey = BuildConfig.MAPS_API_KEY
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), apiKey)
@@ -144,25 +221,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .position(it)
                             .title(place.name)
                     )
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, ZOOM_LEVEL))
 
                 }
-
-//                Toast.makeText(
-//                   requireContext(),
-//                    place.name,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//
-//                val photoRequest = FetchPhotoRequest.builder(
-//                    Objects.requireNonNull(place.photoMetadatas)[0]
-//                )
-//                    .build()
-//                placesClient.fetchPhoto(photoRequest).addOnSuccessListener { response ->
-//                    val bitmap = response.bitmap
-////                    (findViewById(R.id.img) as ImageView).setImageBitmap(bitmap)
-//                }
-//                    .addOnFailureListener { exception -> exception.printStackTrace() }
             }
 
             override fun onError(status: Status) {
@@ -171,5 +232,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         })
     }
+
+
+    fun setMapStyle(map: GoogleMap, context: Context) {
+        try {
+            val success = map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    context,
+                    R.raw.map_style
+                )
+            )
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", e)
+        }
+    }
+
 
 }

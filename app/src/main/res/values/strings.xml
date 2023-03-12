@@ -40,4 +40,10 @@
 
     <string name="by_gps">By GPS</string>
     <string name="by_location">By Location</string>
+    <string name="save_location_dailog">Do you want to save this location ?</string>
+    <string name="sure">Sure</string>
+    <string name="save_favorite_message">Favorite Item has been saved</string>
+    <string name="channel_name">Alert Channel Notification</string>
+    <string name="channel_description">Alert Description</string>
+    <string name="btn_ok">Okay</string>
 </resources>

@@ -59,6 +59,14 @@ class RepositoryImpl(
         localDataSource.deleteAlert(entity)
     }
 
+    override fun getPreferredLocale(): String {
+        return localDataSource.getPreferredLocale()
+    }
+
+    override fun setPreferredLocale(localeCode: String) {
+        setPreferredLocale(localeCode)
+    }
+
 
     override fun getCityName(latLng: LatLng): String {
         return remoteDataSource.getCityName(latLng.latitude, latLng.longitude)

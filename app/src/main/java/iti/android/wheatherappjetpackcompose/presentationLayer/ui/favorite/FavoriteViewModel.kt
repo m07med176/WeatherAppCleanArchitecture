@@ -2,12 +2,11 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(private val userCases: FavoriteUseCases) : ViewModel() {
@@ -15,6 +14,12 @@ class FavoriteViewModel(private val userCases: FavoriteUseCases) : ViewModel() {
         MutableStateFlow<DataResponseState<List<FavPlacesModel>>>(DataResponseState.OnLoading())
     val state: StateFlow<DataResponseState<List<FavPlacesModel>>>
         get() = _state
+
+    fun getCurrentLocation(): Flow<LatLng>? {
+        return userCases.getSettingsUseCase?.invoke()?.map { settings ->
+            settings.userLocation ?: LatLng(0.0, 0.0)
+        }
+    }
 
     fun getFavPlacesData() {
         viewModelScope.launch {

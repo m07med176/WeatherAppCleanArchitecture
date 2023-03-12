@@ -19,6 +19,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.Favori
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
+import iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination
 import iti.android.wheatherappjetpackcompose.utils.findNavController
 import kotlinx.coroutines.launch
 
@@ -47,7 +48,12 @@ class FavoriteFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
         binding.lifecycleOwner = this
         binding.addFavoriteBtn.setOnClickListener {
-            findNavController(requireActivity())?.navigate(R.id.action_favorite_menu_to_mapFragment)
+            val bundle = Bundle()
+            bundle.putSerializable(Constants.MAP_DESTINATION, MapDestination.FAVORITE)
+            findNavController(requireActivity())?.navigate(
+                R.id.action_favorite_menu_to_mapFragment,
+                bundle
+            )
         }
 
 

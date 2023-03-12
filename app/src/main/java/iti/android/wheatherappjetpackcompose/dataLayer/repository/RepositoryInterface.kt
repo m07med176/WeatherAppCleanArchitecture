@@ -50,4 +50,9 @@ interface RepositoryInterface {
     suspend fun insertAlert(entity: AlertEntity)
     suspend fun deleteAlert(entity: AlertEntity)
 
+
+    // Shared Preferece
+    fun getPreferredLocale(): String
+
+    fun setPreferredLocale(localeCode: String)
 }

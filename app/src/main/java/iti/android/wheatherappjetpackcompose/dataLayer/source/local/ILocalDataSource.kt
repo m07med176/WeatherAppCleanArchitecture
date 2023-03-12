@@ -43,4 +43,10 @@ interface ILocalDataSource {
     suspend fun updateLocationProviderSettings(locationProvider: LocationProvider)
 
     suspend fun updateUserLocationSettings(latLng: LatLng)
+
+
+    // Shared Preference
+    fun getPreferredLocale(): String
+
+    fun setPreferredLocale(localeCode: String)
 }
