@@ -35,9 +35,9 @@ class AlertAdapter(
 
 
     class ItemOnCLickListener(
-        val clickListener: (model: AlertModel) -> Unit,
+        val onDelete: (model: AlertModel) -> Unit,
     ) {
-        fun onClick(model: AlertModel) = clickListener(model)
+        fun onClick(model: AlertModel) = onDelete(model)
     }
 
     class AlertDiffCallback : DiffUtil.ItemCallback<AlertModel>() {
@@ -46,10 +46,12 @@ class AlertAdapter(
 
         override fun areContentsTheSame(oldItem: AlertModel, newItem: AlertModel): Boolean =
             oldItem.id == newItem.id &&
-                    oldItem.endDate == newItem.endDate &&
-                    oldItem.startTime == newItem.startTime &&
-                    oldItem.endTime == newItem.endTime &&
-                    oldItem.startDate == newItem.startDate
+                    oldItem.end == newItem.end &&
+                    oldItem.start == newItem.start &&
+                    oldItem.description == newItem.description &&
+                    oldItem.event == newItem.event &&
+                    oldItem.senderName == newItem.senderName &&
+                    oldItem.tags == newItem.tags
     }
 }
 

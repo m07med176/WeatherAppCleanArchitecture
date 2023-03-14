@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -49,9 +50,10 @@ class AlertFragment : Fragment() {
             AlertTimeDialog().show(requireActivity().supportFragmentManager, "AlertDialog")
         }
 
-        val adapter = AlertAdapter(AlertAdapter.ItemOnCLickListener {})
+        val adapter = AlertAdapter(AlertAdapter.ItemOnCLickListener { alertModel ->
+            Toast.makeText(requireContext(), "this is test for toast", Toast.LENGTH_SHORT).show()
+        })
         binding.mAdapter = adapter
-
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
@@ -80,7 +82,6 @@ class AlertFragment : Fragment() {
                         binding.rvAlert.visibility = View.VISIBLE
                         adapter.submitList(state.data)
                     }
-                    else -> {}
                 }
             }
         }

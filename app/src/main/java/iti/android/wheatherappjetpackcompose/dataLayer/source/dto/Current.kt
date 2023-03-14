@@ -3,7 +3,7 @@ package iti.android.wheatherappjetpackcompose.dataLayer.source.dto
 data class Current(
     var clouds: Double? = null,
     val dew_point: Double? = null,
-    val dt: Long? = null,
+    val dt: Double? = null,
     val feels_like: Double? = null,
     val humidity: Double? = null,
     val pressure: Double? = null,

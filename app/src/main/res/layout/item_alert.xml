@@ -34,8 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:textSize="20sp"
-                android:text="@{modelData.startDate}"
-                tools:text="11-12-2022 02:25" />
+                tools:text="02:52 AM" />
 
             <TextView
                 android:layout_weight=".5"
@@ -49,15 +48,14 @@
                 app:layout_constraintStart_toEndOf="@id/textView_from"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                android:text="@{modelData.endDate}"
-                tools:text="11-12-2022 02:25" />
+                tools:text="02:53 AM" />
 
             <ImageButton
-                android:onClick="@{()->clickListener.onClick(modelData)}"
                 android:id="@+id/imageButton_delete"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/white"
+                android:onClick="@{()->clickListener.onClick(modelData)}"
                 android:src="@drawable/ic_delete" />
         </LinearLayout>
 

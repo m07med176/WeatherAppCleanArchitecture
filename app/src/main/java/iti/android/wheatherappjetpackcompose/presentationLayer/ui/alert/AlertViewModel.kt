@@ -2,7 +2,6 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
@@ -18,7 +17,7 @@ class AlertViewModel(private val useCases: AlertUseCases) : ViewModel() {
         get() = _state
 
 
-    suspend fun insertAlert(alertModel: AlertEntity): Long {
+    suspend fun insertAlert(alertModel: AlertModel): Long {
         return useCases.insertAlert.invoke(alertModel)
     }
 

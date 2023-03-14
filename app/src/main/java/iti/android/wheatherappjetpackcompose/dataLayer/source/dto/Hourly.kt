@@ -3,7 +3,7 @@ package iti.android.wheatherappjetpackcompose.dataLayer.source.dto
 data class Hourly(
     val clouds: Double,
     val dew_point: Double,
-    val dt: Long,
+    val dt: Double,
     val feels_like: Double,
     val humidity: Double,
     val pop: Double,
