@@ -1,47 +1,30 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alert
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
 
 class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
     override fun mapFromEntity(entity: AlertEntity): AlertModel {
         return AlertModel(
-            // Alert API
-            id = entity.id,
-            description = entity.content.description,
-            end = entity.content.end ?: System.currentTimeMillis(),
-            event = entity.content.event,
-            senderName = entity.content.senderName,
-            start = entity.content.start ?: System.currentTimeMillis(),
-            tags = entity.content.tags,
-
-            // Alert Dialog Record
-            endDate = entity.endDate,
-            endTime = entity.endTime,
-            startDate = entity.startDate,
-            startTime = entity.startTime
+            latitude = entity.latitude ?: 0.0,
+            longitude = entity.longitude ?: 0.0,
+            city = entity.city,
+            endDate = entity.endDate ?: 0,
+            endTime = entity.endTime ?: 0,
+            startDate = entity.startDate ?: 0,
+            startTime = entity.startTime ?: 0
         )
     }
 
     override fun entityFromMap(domainModel: AlertModel): AlertEntity {
         return AlertEntity(
-            // Alert API
-            id = domainModel.id,
-            content = Alert(
-                description = domainModel.description,
-                end = domainModel.end,
-                event = domainModel.event,
-                senderName = domainModel.senderName,
-                start = domainModel.start,
-                tags = domainModel.tags
-            ),
-
-            // Alert Dialog Record
-            endDate = domainModel.endDate,
-            endTime = domainModel.endTime,
-            startDate = domainModel.startDate,
-            startTime = domainModel.startTime
+            latitude = domainModel.latitude ?: 0.0,
+            longitude = domainModel.longitude ?: 0.0,
+            city = domainModel.city,
+            endDate = domainModel.endDate ?: 0,
+            endTime = domainModel.endTime ?: 0,
+            startDate = domainModel.startDate ?: 0,
+            startTime = domainModel.startTime ?: 0
         )
     }
 

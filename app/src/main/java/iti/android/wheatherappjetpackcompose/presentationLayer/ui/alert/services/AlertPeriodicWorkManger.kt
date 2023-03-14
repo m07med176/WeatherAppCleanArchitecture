@@ -2,17 +2,14 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.service
 
 import android.content.Context
 import androidx.work.*
-import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Weather
 import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsCashMapper
-import iti.android.wheatherappjetpackcompose.utils.getCurrentLocale
-import iti.android.wheatherappjetpackcompose.utils.getSharedPreferences
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -86,7 +83,7 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
             TimeUnit.HOURS.toSeconds(Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toLong())
         val minute =
             TimeUnit.MINUTES.toSeconds(Calendar.getInstance().get(Calendar.MINUTE).toLong())
-        return alert.startTime - ((hour + minute) - (2 * 3600L))
+        return (alert.startTime ?: 0) - ((hour + minute) - (2 * 3600L))
     }
 
     private fun checkTime(alert: AlertModel): Boolean {
@@ -94,18 +91,8 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val date = "$day/${month + 1}/$year"
-        val dayNow = getDateMillis(date)
-        return dayNow >= alert.startDate && dayNow <= alert.endDate
-    }
-
-    private fun getDateMillis(date: String): Long {
-        val language = getSharedPreferences(context).getString(
-            context.getString(R.string.languageSetting),
-            getCurrentLocale(context)?.language
-        )
-        val f = SimpleDateFormat("dd/MM/yyyy", Locale(language!!))
-        val d: Date = f.parse(date) as Date
-        return d.time
+        val dayNow = TimeConverter.convertStringToTimestamp(date, TimeConverter.DATE_PATTERN_SLASH)
+        return dayNow >= (alert.startDate ?: 0) && dayNow <= (alert.endDate ?: 0)
     }
 
 }

@@ -1,6 +1,5 @@
 package iti.android.wheatherappjetpackcompose.dataLayer.source.dto
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,10 +7,11 @@ import androidx.room.PrimaryKey
 data class AlertEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    @Embedded val content: Alert,
-
-    var startTime: Long,
-    var endTime: Long,
-    var startDate: Long,
-    var endDate: Long,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
+    var city: String? = null,
+    var startTime: Long? = null,
+    var endTime: Long? = null,
+    var startDate: Long? = null,
+    var endDate: Long? = null,
 )

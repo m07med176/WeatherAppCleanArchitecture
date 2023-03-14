@@ -2,15 +2,11 @@ package iti.android.wheatherappjetpackcompose.domainLayer.models
 
 data class AlertModel(
     val id: Int? = null,
-    val description: String? = null,
-    val end: Long? = null,
-    val event: String? = null,
-    val senderName: String? = null,
-    val start: Long? = null,
-    val tags: List<String> = emptyList(),
-
-    var startTime: Long,
-    var endTime: Long,
-    var startDate: Long,
-    var endDate: Long,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
+    var city: String? = null,
+    var startTime: Long? = null,
+    var endTime: Long? = null,
+    var startDate: Long? = null,
+    var endDate: Long? = null,
 )
