@@ -1,16 +1,12 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
+import com.google.android.gms.maps.model.LatLng
+
 data class AlertModel(
     val id: Int? = null,
-    val description: String? = null,
-    val end: Long? = null,
-    val event: String? = null,
-    val senderName: String? = null,
-    val start: Long? = null,
-    val tags: List<String> = emptyList(),
-
-    var startTime: Long,
-    var endTime: Long,
-    var startDate: Long,
-    var endDate: Long,
+    val location: LatLng? = null,
+    var startTime: String? = null,
+    var endTime: String? = null,
+    var startDate: String? = null,
+    var endDate: String? = null,
 )

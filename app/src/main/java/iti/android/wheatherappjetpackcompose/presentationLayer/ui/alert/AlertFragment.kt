@@ -50,6 +50,8 @@ class AlertFragment : Fragment() {
         }
 
         val adapter = AlertAdapter(AlertAdapter.ItemOnCLickListener {})
+        binding.mAdapter = adapter
+
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
@@ -78,6 +80,7 @@ class AlertFragment : Fragment() {
                         binding.rvAlert.visibility = View.VISIBLE
                         adapter.submitList(state.data)
                     }
+                    else -> {}
                 }
             }
         }

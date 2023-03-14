@@ -5,8 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alert
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alerts
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.AlertDao
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class AlertDaoTest {
+class AlertsDaoTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -35,8 +35,8 @@ class AlertDaoTest {
     @Before
     fun initDB() {
 
-        val alertEntity = AlertEntity(
-            content = Alert(
+        val alertsEntity = AlertEntity(
+            content = Alerts(
                 description = "6jkdalskd",
                 end = 56465,
                 event = "dsfsaa",
@@ -47,7 +47,7 @@ class AlertDaoTest {
         )
 
         fakeData = listOf(
-            alertEntity, alertEntity, alertEntity
+            alertsEntity, alertsEntity, alertsEntity
         )
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),

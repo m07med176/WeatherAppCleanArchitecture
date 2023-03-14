@@ -1,12 +1,12 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alert
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alerts
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Weather
 
 
 data class WeatherDetailsModel(
     val currentModel: CurrentModel? = null,
-    val alerts: List<Alert> = emptyList(),
+    val alerts: List<Alerts> = emptyList(),
     val daily: List<DailyModel> = emptyList(),
     val hourly: List<HourlyModel> = emptyList(),
     val lat: Double? = null,

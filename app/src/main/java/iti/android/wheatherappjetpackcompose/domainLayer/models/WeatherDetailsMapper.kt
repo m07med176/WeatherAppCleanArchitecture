@@ -2,7 +2,9 @@ package iti.android.wheatherappjetpackcompose.domainLayer.models
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Current
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
-import iti.android.wheatherappjetpackcompose.domainLayer.utils.*
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.iconConverter
 import kotlin.streams.toList
 
 class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetailsModel> {
@@ -11,7 +13,10 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
 
         val dailyList = entity.daily?.stream()?.map { dailyEntity ->
             DailyModel(
-                dt = dayConverterToString(dailyEntity.dt) ?: "",
+                dt = TimeConverter.convertTimestampToString(
+                    dailyEntity.dt,
+                    TimeConverter.DAY_PATTERN
+                ) ?: "",
                 image = dailyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
                     .toList()[0],
                 min = dailyEntity.temp.min.toString(),
@@ -24,7 +29,10 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
 
         val hourlyList = entity.hourly?.stream()?.map { hourlyEntity ->
             HourlyModel(
-                dt = timeConverterToString(hourlyEntity.dt) ?: "",
+                dt = TimeConverter.convertTimestampToString(
+                    hourlyEntity.dt,
+                    TimeConverter.TIME_PATTERN_HOUR
+                ) ?: "",
                 image = hourlyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
                     .toList()[0],
                 temp = hourlyEntity.temp.toString()
@@ -40,7 +48,10 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
         return WeatherDetailsModel(
             currentModel = CurrentModel(
                 clouds = currentEntity.clouds.toString(),
-                dt = dateTimeConverterTimestampToString(currentEntity.dt ?: 0.0) ?: "",
+                dt = TimeConverter.convertTimestampToString(
+                    currentEntity.dt ?: 0,
+                    TimeConverter.DATETIME_PATTERN
+                ) ?: "",
                 weather = currentEntity.weather,
                 wind_gust = currentEntity.wind_gust.toString(),
                 wind_deg = currentEntity.wind_deg.toString(),
@@ -54,10 +65,8 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
                 feels_like = currentEntity.feels_like.toString(),
                 dew_point = currentEntity.dew_point.toString(),
                 wind_speed = currentEntity.wind_speed.toString()
-
-
             ),
-            alerts = entity.alert,
+            alerts = entity.alerts!!,
             daily = dailyList,
             hourly = hourlyList,
             lat = entity.lat,
@@ -71,7 +80,7 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
         val currentModel: CurrentModel = domainModel.currentModel ?: CurrentModel()
         return WeatherSuccessResponse(
             current = null,
-            alert = domainModel.alerts,
+            alerts = domainModel.alerts,
             daily = null,
             hourly = null,
             lat = domainModel.lat,

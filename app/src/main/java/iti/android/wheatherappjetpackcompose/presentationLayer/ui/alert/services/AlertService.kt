@@ -20,12 +20,17 @@ import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
 import iti.android.wheatherappjetpackcompose.utils.getIcon
 
 
+private const val CHANNEL_ID = 18
+private const val NOTIFICATION_ID = 7
+
 class AlertService : Service() {
 
-    private val CHANNEL_ID = 14
-    private val FOREGROUND_ID = 7
+
     private var notificationManager: NotificationManager? = null
     var alertWindowManger: AlertWindowManger? = null
+    val soundSource: Uri =
+        Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.oh_no)
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -33,7 +38,7 @@ class AlertService : Service() {
         val description = intent?.getStringExtra("description")
         val icon = intent?.getStringExtra("icon")
         notificationChannel()
-        startForeground(FOREGROUND_ID, makeNotification(description!!, icon!!))
+        startForeground(NOTIFICATION_ID, makeNotification(description!!, icon!!))
         //start window manger
         if (Settings.canDrawOverlays(this)) {
             alertWindowManger = AlertWindowManger(this, description, icon)
@@ -65,7 +70,8 @@ class AlertService : Service() {
             )
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setLights(Color.RED, 3000, 3000)
-            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.weather_alert))//Here is FILE_NAME is the name of file that you want to play
+
+            .setSound(soundSource)
             .setAutoCancel(true)
             .build()
     }
@@ -79,13 +85,11 @@ class AlertService : Service() {
                 "$CHANNEL_ID",
                 name, importance
             )
-            val sound =
-                Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.weather_alert) //Here is FILE_NAME is the name of file that you want to play
             val attributes = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                 .build()
             channel.enableVibration(true)
-            channel.setSound(sound, attributes)
+            channel.setSound(soundSource, attributes)
             channel.description = description
             notificationManager = this.getSystemService(NotificationManager::class.java)
             notificationManager?.createNotificationChannel(channel)

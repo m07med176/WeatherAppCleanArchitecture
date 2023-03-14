@@ -46,12 +46,10 @@ class AlertAdapter(
 
         override fun areContentsTheSame(oldItem: AlertModel, newItem: AlertModel): Boolean =
             oldItem.id == newItem.id &&
-                    oldItem.end == newItem.end &&
-                    oldItem.start == newItem.start &&
-                    oldItem.description == newItem.description &&
-                    oldItem.event == newItem.event &&
-                    oldItem.senderName == newItem.senderName &&
-                    oldItem.tags == newItem.tags
+                    oldItem.endDate == newItem.endDate &&
+                    oldItem.startTime == newItem.startTime &&
+                    oldItem.endTime == newItem.endTime &&
+                    oldItem.startDate == newItem.startDate
     }
 }
 

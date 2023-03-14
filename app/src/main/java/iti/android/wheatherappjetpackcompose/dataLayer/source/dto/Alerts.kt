@@ -2,7 +2,7 @@ package iti.android.wheatherappjetpackcompose.dataLayer.source.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class Alert(
+data class Alerts(
     val description: String?,
     val end: Long?,
     val event: String?,
