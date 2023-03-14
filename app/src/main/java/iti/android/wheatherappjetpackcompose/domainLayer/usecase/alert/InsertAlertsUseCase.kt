@@ -5,7 +5,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 
 class InsertAlertsUseCase(private val repository: RepositoryInterface) {
-    suspend operator fun invoke(alertModel: AlertModel) {
-        repository.insertAlert(AlertMapper().entityFromMap(alertModel))
+    suspend operator fun invoke(alertModel: AlertModel): Long {
+        return repository.insertAlert(AlertMapper().entityFromMap(alertModel))
     }
 }

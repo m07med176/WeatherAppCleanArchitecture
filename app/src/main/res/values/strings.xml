@@ -46,4 +46,11 @@
     <string name="channel_name">Alert Channel Notification</string>
     <string name="channel_description">Alert Description</string>
     <string name="btn_ok">Okay</string>
+
+    <string name="date_picker">Choose date</string>
+    <string name="time_picker">Choose time</string>
+    <string name="languageSetting">language</string>
+    <string name="select_date_from">Select date from</string>
+    <string name="select_data_to">Select Data To</string>
+    <string name="select_location">Select Location</string>
 </resources>

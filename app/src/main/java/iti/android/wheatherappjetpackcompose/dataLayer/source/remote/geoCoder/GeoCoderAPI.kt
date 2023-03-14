@@ -5,7 +5,7 @@ import android.location.Geocoder
 import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
-class GeoCoderAPI(private val context: Context) {
+class GeoCoderAPI(val context: Context) {
     private val geoCoder = Geocoder(context, Locale.getDefault())
 
     fun getCityName(lat: Double, long: Double): String {

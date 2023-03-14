@@ -12,22 +12,18 @@ class RemoteDataSource(
     private val geoCoderAPI: GeoCoderAPI,
 ) : IRemoteDataSource {
     override suspend fun getWeatherDetails(
-        apiKey: String,
-        exclude: String?,
         longitude: Double,
         latitude: Double,
-        units: String,
         language: String,
     ): Response<WeatherSuccessResponse> = api.getWeatherDetails(
-        apiKey,
-        exclude,
-        longitude,
-        latitude,
-        units,
-        language
+        longitude = longitude,
+        latitude = latitude,
+        language = language
     )
 
     override fun getCityName(lat: Double, long: Double): String = geoCoderAPI.getCityName(lat, long)
 
     override fun getCityName(latLng: LatLng): String = geoCoderAPI.getCityName(latLng)
+    override fun checkInternetConnectivity(): Boolean = true // Fake Data Dosn't used
+
 }

@@ -9,4 +9,9 @@ data class AlertEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
     @Embedded val content: Alert,
+
+    var startTime: Long,
+    var endTime: Long,
+    var startDate: Long,
+    var endDate: Long,
 )

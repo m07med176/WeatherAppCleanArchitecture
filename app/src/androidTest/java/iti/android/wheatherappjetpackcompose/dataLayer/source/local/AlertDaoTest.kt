@@ -92,7 +92,7 @@ class AlertDaoTest {
         alertTable.insertAlert(item)
         val items = alertTable.getAlerts().first()
         // When
-        alertTable.deleteAlert(items[0])
+        alertTable.deleteAlertByObject(items[0])
         // Then
         val result = alertTable.getAlerts().first()
         MatcherAssert.assertThat(result.size, Is.`is`(0))

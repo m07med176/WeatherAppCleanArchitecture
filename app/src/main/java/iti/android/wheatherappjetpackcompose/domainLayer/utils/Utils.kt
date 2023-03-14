@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 
 const val DATETIME_PATTERN = "dd MMM, hh:mm aa"
 const val TIME_PATTERN = "hh aa"
-const val DAY_PATTERN = "hh aa"
+const val DAY_PATTERN = "dd MMM"
 
 @SuppressLint("SimpleDateFormat")
 fun dayConverterToString(dt: Int): String? {

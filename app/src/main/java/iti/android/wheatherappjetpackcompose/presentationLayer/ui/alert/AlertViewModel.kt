@@ -17,6 +17,10 @@ class AlertViewModel(private val useCases: AlertUseCases) : ViewModel() {
         get() = _state
 
 
+    suspend fun insertAlert(alertModel: AlertModel): Long {
+        return useCases.insertAlert.invoke(alertModel)
+    }
+
     fun getAlertsList() {
         viewModelScope.launch {
             useCases.getAlert.invoke().catch {

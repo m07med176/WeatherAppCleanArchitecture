@@ -37,6 +37,11 @@
             </intent-filter>
         </activity>
 
+
+        <service
+            android:name=".presentationLayer.ui.alert.services.AlertService"
+            android:enabled="true"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />

@@ -1,16 +1,54 @@
 package iti.android.wheatherappjetpackcompose.utils
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 // NavHostFragment.findNavController(this).navigate(r.id)
 fun findNavController(activity: Activity): NavController? {
     val navHostFragment =
         (activity as? MainActivity)?.supportFragmentManager?.findFragmentById(R.id.mainNavHostFragment) as? NavHostFragment
     return navHostFragment?.navController
+}
+
+fun convertLongToTime(time: Long, language: String): String {
+    val date = Date(TimeUnit.SECONDS.toMillis(time))
+    val format = SimpleDateFormat("h:mm a", Locale(language))
+    return format.format(date)
+}
+
+fun convertLongToDayDate(time: Long, language: String): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("d MMM, yyyy", Locale(language))
+    return format.format(date)
+}
+
+fun getCurrentLocale(context: Context): Locale? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        context.resources.configuration.locales[0]
+    } else {
+        context.resources.configuration.locale
+    }
+}
+
+fun convertCalenderToDayString(calendar: Calendar, language: String): String {
+    return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale(language))
+}
+
+
+fun getSharedPreferences(context: Context): SharedPreferences {
+    return context.getSharedPreferences(
+        "MyAlert",
+        Context.MODE_PRIVATE
+    )
 }
 
 

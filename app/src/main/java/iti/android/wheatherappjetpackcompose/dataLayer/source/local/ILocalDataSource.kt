@@ -12,10 +12,13 @@ interface ILocalDataSource {
     // Alert DAO
     fun getAlerts(): Flow<List<AlertEntity>>
 
-    suspend fun insertAlert(entity: AlertEntity)
+    suspend fun insertAlert(entity: AlertEntity): Long
 
-    suspend fun deleteAlert(entity: AlertEntity)
+    suspend fun deleteAlertByObject(entity: AlertEntity)
 
+    suspend fun deleteAlert(id: Int)
+
+    fun getAlert(id: Int): AlertEntity
 
     // Favorite DAO
     fun getFavorites(): Flow<List<FavoriteEntity>>
@@ -49,4 +52,5 @@ interface ILocalDataSource {
     fun getPreferredLocale(): String
 
     fun setPreferredLocale(localeCode: String)
+
 }

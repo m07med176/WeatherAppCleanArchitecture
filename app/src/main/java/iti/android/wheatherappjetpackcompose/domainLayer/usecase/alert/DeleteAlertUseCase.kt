@@ -6,6 +6,6 @@ import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 
 class DeleteAlertUseCase(private val repository: RepositoryInterface) {
     suspend operator fun invoke(alertModel: AlertModel) {
-        repository.deleteAlert(AlertMapper().entityFromMap(alertModel))
+        repository.deleteAlertByObject(AlertMapper().entityFromMap(alertModel))
     }
 }

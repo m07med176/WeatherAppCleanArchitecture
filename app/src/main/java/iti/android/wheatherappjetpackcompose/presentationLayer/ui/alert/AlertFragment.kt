@@ -45,6 +45,10 @@ class AlertFragment : Fragment() {
         viewModel.getAlertsList()
 
 
+        binding.addAlertBtn.setOnClickListener {
+            AlertTimeDialog().show(requireActivity().supportFragmentManager, "AlertDialog")
+        }
+
         val adapter = AlertAdapter(AlertAdapter.ItemOnCLickListener {})
         lifecycleScope.launch {
             viewModel.state.collect { state ->

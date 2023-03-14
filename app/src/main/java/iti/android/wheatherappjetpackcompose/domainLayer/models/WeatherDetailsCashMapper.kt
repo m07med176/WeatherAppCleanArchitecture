@@ -7,7 +7,7 @@ class WeatherDetailsCashMapper : EntityMapper<HomeEntity, WeatherDetailsModel> {
     override fun mapFromEntity(entity: HomeEntity): WeatherDetailsModel {
         return WeatherDetailsModel(
             currentModel = entity.content.currentModel,
-            alert = entity.content.alert,
+            alerts = entity.content.alerts,
             daily = entity.content.daily,
             hourly = entity.content.hourly,
             lat = entity.content.lat,
@@ -21,7 +21,7 @@ class WeatherDetailsCashMapper : EntityMapper<HomeEntity, WeatherDetailsModel> {
         return HomeEntity(
             content = WeatherDetailsModel(
                 currentModel = domainModel.currentModel,
-                alert = domainModel.alert,
+                alerts = domainModel.alerts,
                 daily = domainModel.daily,
                 hourly = domainModel.hourly,
                 lat = domainModel.lat,

@@ -6,7 +6,7 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Weather
 
 data class WeatherDetailsModel(
     val currentModel: CurrentModel? = null,
-    val alert: List<Alert> = emptyList(),
+    val alerts: List<Alert> = emptyList(),
     val daily: List<DailyModel> = emptyList(),
     val hourly: List<HourlyModel> = emptyList(),
     val lat: Double? = null,

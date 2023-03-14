@@ -57,7 +57,7 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
 
 
             ),
-            alert = entity.alert,
+            alerts = entity.alert,
             daily = dailyList,
             hourly = hourlyList,
             lat = entity.lat,
@@ -71,7 +71,7 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
         val currentModel: CurrentModel = domainModel.currentModel ?: CurrentModel()
         return WeatherSuccessResponse(
             current = null,
-            alert = domainModel.alert,
+            alert = domainModel.alerts,
             daily = null,
             hourly = null,
             lat = domainModel.lat,

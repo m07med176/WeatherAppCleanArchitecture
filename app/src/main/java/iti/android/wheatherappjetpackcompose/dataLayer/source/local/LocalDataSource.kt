@@ -20,12 +20,18 @@ class LocalDataSource(
     // Alerts DAO
     override fun getAlerts(): Flow<List<AlertEntity>> = daoAlert.getAlerts()
 
-    override suspend fun insertAlert(entity: AlertEntity) {
-        daoAlert.insertAlert(entity)
+    override suspend fun insertAlert(entity: AlertEntity): Long = daoAlert.insertAlert(entity)
+
+    override suspend fun deleteAlertByObject(entity: AlertEntity) {
+        daoAlert.deleteAlertByObject(entity)
     }
 
-    override suspend fun deleteAlert(entity: AlertEntity) {
-        daoAlert.deleteAlert(entity)
+    override suspend fun deleteAlert(id: Int) {
+        daoAlert.deleteAlert(id)
+    }
+
+    override fun getAlert(id: Int): AlertEntity {
+        return daoAlert.getAlert(id)
     }
 
     // Favorite DAO
@@ -81,4 +87,6 @@ class LocalDataSource(
     override fun setPreferredLocale(localeCode: String) {
         cash.setPreferredLocale(localeCode)
     }
+
+
 }
