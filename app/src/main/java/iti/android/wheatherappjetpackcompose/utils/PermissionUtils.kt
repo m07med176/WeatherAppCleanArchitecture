@@ -9,8 +9,6 @@ data class Permissions(val permissionName: String, val requestCode: Int)
 
 class PermissionUtils {
     companion object {
-        const val PERMISSION_ID = 520
-
         fun List<Permissions>.permissionAction(
             activity: Activity,
             onPermissionGranted: () -> Unit,
@@ -41,13 +39,18 @@ class PermissionUtils {
         }
 
         fun List<Permissions>.onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<out String>,
-            grantResults: IntArray, failerCallback: (permissionType: String) -> Unit,
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray,
+            failedCallback: (permissionType: String) -> Unit,
+            successCallBack: (permissionType: String) -> Unit,
         ) {
             forEach { permission ->
                 if (requestCode == permission.requestCode && grantResults.size > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        failerCallback(permission.permissionName)
+                        failedCallback(permission.permissionName)
+                    } else {
+                        successCallBack(permission.permissionName)
                     }
                 }
             }
