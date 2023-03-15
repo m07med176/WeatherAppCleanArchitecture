@@ -45,21 +45,21 @@ class HomeDaoTest {
             timezone = "56352232",
             timezone_offset = 55,
             current = Current(
-                clouds = 54,
+                clouds = 54.toDouble(),
                 dew_point = 0.5455,
-                dt = 51,
+                dt = 51.toDouble(),
                 feels_like = 5.24,
-                humidity = 5635,
-                pressure = 545,
-                sunrise = 54645,
-                sunset = 564,
+                humidity = 5635.toDouble(),
+                pressure = 545.toDouble(),
+                sunrise = 54645.toDouble(),
+                sunset = 564.toDouble(),
                 temp = 0.224,
                 uvi = 0.2454,
-                visibility = 45,
+                visibility = 45.toDouble(),
                 weather = emptyList(),
-                wind_deg = 554,
+                wind_deg = 554.toDouble(),
                 wind_gust = 0.25,
-                wind_speed = 564
+                wind_speed = 564.toDouble()
             )
 
         )
@@ -78,9 +78,9 @@ class HomeDaoTest {
     @Test
     fun getHome() = runBlockingTest {
         // Gavin
-        val item1 = HomeEntity(content = fakeData.get(0))
-        val item2 = HomeEntity(content = fakeData.get(1))
-        val item3 = HomeEntity(content = fakeData.get(2))
+        val item1 = HomeEntity(content = fakeData[0])
+        val item2 = HomeEntity(content = fakeData[1])
+        val item3 = HomeEntity(content = fakeData[2])
         homeTable.insertHome(item1)
         homeTable.insertHome(item2)
         homeTable.insertHome(item3)
@@ -94,7 +94,7 @@ class HomeDaoTest {
     @Test
     fun insertHome() = runBlockingTest {
         // Gavin
-        val item = HomeEntity(content = fakeData.get(0))
+        val item = HomeEntity(content = fakeData[0])
         // When
         homeTable.insertHome(item)
         // Then

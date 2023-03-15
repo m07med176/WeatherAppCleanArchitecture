@@ -35,4 +35,10 @@ class AlertViewModel(private val useCases: AlertUseCases) : ViewModel() {
         }
     }
 
+    fun removeAlert(alertModel: AlertModel){
+       viewModelScope.launch {
+           useCases.deleteAlert.invoke(alertModel)
+       }
+    }
+
 }

@@ -7,12 +7,13 @@ import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
     override fun mapFromEntity(entity: AlertEntity): AlertModel {
         return AlertModel(
+            id=entity.id,
             latitude = entity.latitude ?: 0.0,
             longitude = entity.longitude ?: 0.0,
             city = entity.city,
             endDate = TimeConverter.convertTimestampToString(
                 entity.endDate ?: 0,
-                TimeConverter.DATE_PATTERN
+                TimeConverter.DAY_PATTERN
             ),
             endTime = TimeConverter.convertTimestampToString(
                 entity.endTime ?: 0,
@@ -20,7 +21,7 @@ class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
             ),
             startDate = TimeConverter.convertTimestampToString(
                 entity.startDate ?: 0,
-                TimeConverter.DATE_PATTERN
+                TimeConverter.DAY_PATTERN
             ),
             startTime = TimeConverter.convertTimestampToString(
                 entity.startTime ?: 0,
@@ -31,12 +32,13 @@ class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
 
     override fun entityFromMap(domainModel: AlertModel): AlertEntity {
         return AlertEntity(
+            id=domainModel.id,
             latitude = domainModel.latitude ?: 0.0,
             longitude = domainModel.longitude ?: 0.0,
             city = domainModel.city,
             endDate = TimeConverter.convertStringToTimestamp(
                 domainModel.endDate ?: "",
-                TimeConverter.DATE_PATTERN
+                TimeConverter.DAY_PATTERN
             ),
             endTime = TimeConverter.convertStringToTimestamp(
                 domainModel.endTime ?: "",
@@ -44,7 +46,7 @@ class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
             ),
             startDate = TimeConverter.convertStringToTimestamp(
                 domainModel.startDate ?: "",
-                TimeConverter.DATE_PATTERN
+                TimeConverter.DAY_PATTERN
             ),
             startTime = TimeConverter.convertStringToTimestamp(
                 domainModel.startTime ?: "",

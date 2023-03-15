@@ -1,9 +1,7 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.services
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -26,7 +24,6 @@ class AlertService : Service() {
     private val FOREGROUND_ID = 7
     private var notificationManager: NotificationManager? = null
     var alertWindowManger: AlertWindowManger? = null
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -46,10 +43,11 @@ class AlertService : Service() {
         return null
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun makeNotification(description: String, icon: String): Notification {
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val bitmap = BitmapFactory.decodeResource(resources, getIcon(icon))
+        val sound =
+            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.oh_no)
 
         return NotificationCompat.Builder(
             applicationContext, "$CHANNEL_ID"
@@ -65,12 +63,23 @@ class AlertService : Service() {
             )
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setLights(Color.RED, 3000, 3000)
-            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.weather_alert))//Here is FILE_NAME is the name of file that you want to play
+            .setSound(sound)
             .setAutoCancel(true)
+            .setContentIntent(
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    Intent(this, MainActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) },
+                    PendingIntent.FLAG_ONE_SHOT
+                )
+            )
             .build()
     }
 
     private fun notificationChannel() {
+        val sound =
+            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.oh_no)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name: CharSequence = getString(R.string.channel_name)
             val description = getString(R.string.channel_description)
@@ -79,8 +88,7 @@ class AlertService : Service() {
                 "$CHANNEL_ID",
                 name, importance
             )
-            val sound =
-                Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.weather_alert) //Here is FILE_NAME is the name of file that you want to play
+
             val attributes = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                 .build()

@@ -33,8 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textSize="20sp"
-                android:text="@{modelData.startDate}"
+                android:textSize="12sp"
+                android:text="@{modelData.startDate+ ' '+modelData.startTime }"
                 tools:text="10/12/23 02:52 AM" />
 
             <TextView
@@ -43,13 +43,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textSize="20sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/textView_from"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                android:text="@{modelData.endDate}"
+                android:text="@{modelData.endDate +' '+modelData.startTime}"
                 tools:text="10/12/23 02:53 AM" />
 
             <ImageButton

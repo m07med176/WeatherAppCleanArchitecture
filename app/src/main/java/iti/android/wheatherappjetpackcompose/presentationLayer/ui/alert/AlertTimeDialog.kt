@@ -124,11 +124,8 @@ class AlertTimeDialog : DialogFragment() {
             TimeConverter.convertTimestampToString(afterOneHour, TimeConverter.TIME_PATTERN)
 
 
-        // set values
-        val currentDate =
-            TimeConverter.convertTimestampToString(dayNow, TimeConverter.DATE_PATTERN_SLASH)
-        binding.btnFrom.text = currentDate.plus(" ").plus(currentTimeText)
-        binding.btnTo.text = currentDate.plus(" ").plus(afterOneHourText)
+        binding.btnFrom.text = date.plus(" ").plus(currentTimeText)
+        binding.btnTo.text = date.plus(" ").plus(afterOneHourText)
 
 
         //init default model

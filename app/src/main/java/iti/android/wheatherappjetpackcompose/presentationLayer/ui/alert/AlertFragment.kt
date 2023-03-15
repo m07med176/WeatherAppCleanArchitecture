@@ -45,13 +45,12 @@ class AlertFragment : Fragment() {
         binding.lifecycleOwner = this
         viewModel.getAlertsList()
 
-
         binding.addAlertBtn.setOnClickListener {
             AlertTimeDialog().show(requireActivity().supportFragmentManager, "AlertDialog")
         }
 
         val adapter = AlertAdapter(AlertAdapter.ItemOnCLickListener { alertModel ->
-            Toast.makeText(requireContext(), "this is test for toast", Toast.LENGTH_SHORT).show()
+            viewModel.removeAlert(alertModel)
         })
         binding.mAdapter = adapter
         lifecycleScope.launch {

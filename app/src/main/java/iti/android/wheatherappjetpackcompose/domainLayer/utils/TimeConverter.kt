@@ -12,7 +12,7 @@ class TimeConverter {
         const val TIME_PATTERN = "hh:mm aa"
         const val DAY_PATTERN = "dd MMM"
         const val DATE_PATTERN = "dd-MMM-yyy"
-        const val DATE_PATTERN_SLASH = "dd-MMM-yyy"
+        const val DATE_PATTERN_SLASH = "dd/MM/yyyy"
 
         @SuppressLint("SimpleDateFormat")
         fun convertTimestampToString(dt: Long, type: String): String? {
