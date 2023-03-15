@@ -21,7 +21,7 @@ import retrofit2.Response
 class RepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-    private val context: Context,
+    override val context: Context,
 ) : RepositoryInterface {
 
 
@@ -35,9 +35,8 @@ class RepositoryImpl(
 
                 // Local Dependencies
                 val room = RoomDB.invoke(app)
-                val cash = DataStoreManager(app)
                 val localDataSource =
-                    LocalDataSource(room.alertDao(), room.homeDao(), room.favoriteDao(), cash)
+                    LocalDataSource(room.alertDao(), room.homeDao(), room.favoriteDao())
                 // Remote Dependencies
                 val geoCoderAPI = GeoCoderAPI(app)
                 val api = RetrofitInstance(app).api
@@ -52,9 +51,8 @@ class RepositoryImpl(
 
                 // Local Dependencies
                 val room = RoomDB.invoke(app)
-                val cash = DataStoreManager(app)
                 val localDataSource =
-                    LocalDataSource(room.alertDao(), room.homeDao(), room.favoriteDao(), cash)
+                    LocalDataSource(room.alertDao(), room.homeDao(), room.favoriteDao())
                 // Remote Dependencies
                 val geoCoderAPI = GeoCoderAPI(app)
                 val api = RetrofitInstance(app).api
@@ -84,17 +82,9 @@ class RepositoryImpl(
 
     override fun getAlert(id: Int): AlertEntity = localDataSource.getAlert(id)
 
-    override fun getPreferredLocale(): String {
-        return localDataSource.getPreferredLocale()
-    }
-
-    override fun setPreferredLocale(localeCode: String) {
-        setPreferredLocale(localeCode)
-    }
-
 
     override fun getCityName(lat: Double, long: Double): String {
-        TODO("Not yet implemented")
+        return remoteDataSource.getCityName(lat, lat)
     }
 
 
@@ -120,38 +110,18 @@ class RepositoryImpl(
         longitude: Double,
         latitude: Double,
         language: String,
+        units: String,
     ): Response<WeatherSuccessResponse> {
         return remoteDataSource.getWeatherDetails(
             longitude = longitude,
             latitude = latitude,
-            language = language
+            language = language,
+            units = units
         )
     }
 
 
-    override fun getSharedSettings(): Flow<Settings> {
-        return localDataSource.getSharedSettings()
-    }
 
-    override suspend fun updateTempraturSettings(temperature: Temperature) {
-        localDataSource.updateTempraturSettings(temperature)
-    }
-
-    override suspend fun updateWindSpeedSettings(windSpeed: WindSpeed) {
-        localDataSource.updateWindSpeedSettings(windSpeed)
-    }
-
-    override suspend fun updateLanguageSettings(language: Language) {
-        localDataSource.updateLanguageSettings(language)
-    }
-
-    override suspend fun updateLocationProviderSettings(locationProvider: LocationProvider) {
-        localDataSource.updateLocationProviderSettings(locationProvider)
-    }
-
-    override suspend fun updateUserLocationSettings(latLng: LatLng) {
-        localDataSource.updateUserLocationSettings(latLng)
-    }
 
     override fun getFavorites(): Flow<List<FavoriteEntity>> {
         return localDataSource.getFavorites()

@@ -9,12 +9,14 @@
         android:id="@+id/favorite_menu"
         android:icon="@drawable/ic_favorite"
         android:title="@string/title_favorite" />
-    <item
-        android:id="@+id/settings_menu"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/title_settings" />
+
     <item
         android:id="@+id/alert_menu"
         android:icon="@drawable/ic_alert"
         android:title="@string/alert_title" />
+
+    <item
+        android:id="@+id/settings_menu"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
 </menu>

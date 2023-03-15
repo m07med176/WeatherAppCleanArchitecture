@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,12 +36,12 @@ import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.setSharedSettings
 import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.*
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModel
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModelFactory
 import iti.android.wheatherappjetpackcompose.presentationLayer.utils.Message
-import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -81,6 +82,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> {}
                     BottomSheetBehavior.STATE_COLLAPSED -> {}
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                    }
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {
+                    }
                 }
             }
 
@@ -118,12 +127,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         lifecycleScope
                             .launch {
                                 delay(500)
-                                findNavController(requireActivity())?.popBackStack()
+                                NavHostFragment.findNavController(this@MapFragment).popBackStack()
                             }
                     }
                 }
-                MapDestination.HOME -> {}
-                MapDestination.SETTINGS -> {}
+                MapDestination.HOME -> {
+                    chosenLocation?.let {
+                        requireContext().setSharedSettings(it)
+                    }
+                    NavHostFragment.findNavController(this).popBackStack()
+                }
+                MapDestination.SETTINGS -> {
+                    chosenLocation?.let {
+                        requireContext().setSharedSettings(it)
+                    }
+                    NavHostFragment.findNavController(this).popBackStack()
+
+                }
             }
         }
     }
@@ -132,7 +152,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap = map
 
         lifecycleScope.launch {
-            viewModel.getCurrentLocation()?.collect { latLng ->
+            viewModel.getCurrentLocation().collect { latLng ->
                 mMap.addMarker(
                     MarkerOptions()
                         .position(latLng)

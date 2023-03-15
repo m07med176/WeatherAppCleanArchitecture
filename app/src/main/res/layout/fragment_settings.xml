@@ -21,12 +21,18 @@
             type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.LocationProvider" />
 
         <variable
+            name="alertProvider"
+            type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.AlertProvider" />
+
+
+        <variable
             name="windSpeed"
             type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.WindSpeed" />
 
         <variable
             name="temperature"
             type="iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Temperature" />
+
 
     </data>
 
@@ -48,7 +54,7 @@
 
             <ImageView
                 android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
                 android:layout_margin="8dp"
                 android:src="@drawable/settings_icon" />
 
@@ -58,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/tv_settings"
-                android:textSize="50sp" />
+                android:textSize="40sp" />
         </LinearLayout>
 
 
@@ -262,7 +268,6 @@
                 app:cardCornerRadius="10dp">
 
                 <RadioGroup
-                    android:onCheckedChanged="@{(rg,r) -> viewModel.saveLanguage(r)}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -270,14 +275,12 @@
                         android:id="@+id/arabicSelectedRadio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{settings.language == language.Arabic}"
                         android:text="@string/rb_arabic" />
 
                     <RadioButton
                         android:id="@+id/englishSelectedRadio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{settings.language == language.English}"
                         android:text="@string/rb_english" />
 
                 </RadioGroup>
@@ -312,7 +315,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="start"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_location_2" />
+                        android:src="@drawable/ic_location" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -333,8 +336,6 @@
                 app:cardCornerRadius="10dp">
 
                 <RadioGroup
-                    android:onCheckedChanged="@{(rg,r) -> viewModel.saveLocationProvider(r)}"
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -343,7 +344,6 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{settings.locationProvider == locationProvider.GPS}"
                         android:text="@string/by_gps" />
 
                     <RadioButton
@@ -351,7 +351,6 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{settings.locationProvider == locationProvider.MAP}"
                         android:text="@string/by_location" />
 
                 </RadioGroup>
@@ -360,5 +359,73 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/holder_alertProvider"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/holder_language">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+
+                        android:layout_height="40dp"
+                        android:layout_gravity="start"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/alert_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/tv_alert"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="10dp">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:id="@+id/notificationSelectedRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/by_notification" />
+
+                    <RadioButton
+                        android:id="@+id/alertDialogSelectedRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/by_alert_dialog" />
+
+                </RadioGroup>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

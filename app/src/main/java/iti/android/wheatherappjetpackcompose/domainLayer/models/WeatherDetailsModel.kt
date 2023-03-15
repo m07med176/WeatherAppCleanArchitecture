@@ -25,7 +25,7 @@ data class CurrentModel(
     val pressure: String = "",
     val sunrise: String = "",
     val sunset: String = "",
-    val temp: String = "",
+    var temp: String = "",
     val uvi: String = "",
     val visibility: String = "",
     val weather: List<Weather> = emptyList(),

@@ -1,10 +1,8 @@
 package iti.android.wheatherappjetpackcompose.dataLayer.source.local
 
-import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
-import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.*
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.AlertDao
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.FavoriteDao
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.HomeDao
@@ -14,7 +12,6 @@ class LocalDataSource(
     private val daoAlert: AlertDao,
     private val daoHome: HomeDao,
     private val daoFavorite: FavoriteDao,
-    private val cash: DataStoreManager,
 ) : ILocalDataSource {
 
     // Alerts DAO
@@ -55,38 +52,4 @@ class LocalDataSource(
     override suspend fun deleteHome(home: HomeEntity) {
         daoHome.deleteHome(home)
     }
-
-    override fun getSharedSettings(): Flow<Settings> {
-        return cash.getSharedSettings()
-    }
-
-    override suspend fun updateTempraturSettings(temperature: Temperature) {
-        cash.updateTempraturSettings(temperature)
-    }
-
-    override suspend fun updateWindSpeedSettings(windSpeed: WindSpeed) {
-        cash.updateWindSpeedSettings(windSpeed)
-    }
-
-    override suspend fun updateLanguageSettings(language: Language) {
-        cash.updateLanguageSettings(language)
-    }
-
-    override suspend fun updateLocationProviderSettings(locationProvider: LocationProvider) {
-        cash.updateLocationProviderSettings(locationProvider)
-    }
-
-    override suspend fun updateUserLocationSettings(latLng: LatLng) {
-        cash.updateUserLocationSettings(latLng)
-    }
-
-    override fun getPreferredLocale(): String {
-        return cash.getPreferredLocale()
-    }
-
-    override fun setPreferredLocale(localeCode: String) {
-        cash.setPreferredLocale(localeCode)
-    }
-
-
 }

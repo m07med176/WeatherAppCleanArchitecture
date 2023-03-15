@@ -53,4 +53,11 @@
     <string name="select_date_from">Select date from</string>
     <string name="select_data_to">Select Data To</string>
     <string name="select_location">Select Location</string>
+    <string name="tv_alert">Alert</string>
+    <string name="by_alert_dialog">Alert Dialog</string>
+    <string name="by_notification">Notification</string>
+    <string name="display_on_top_title">Display on top</string>
+    <string name="display_on_top_message">You Should let us to draw on top</string>
+    <string name="okay">Okay</string>
+    <string name="no">No</string>
 </resources>

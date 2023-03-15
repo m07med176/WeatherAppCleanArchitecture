@@ -15,10 +15,8 @@ class FavoriteViewModel(private val userCases: FavoriteUseCases) : ViewModel() {
     val state: StateFlow<DataResponseState<List<FavPlacesModel>>>
         get() = _state
 
-    fun getCurrentLocation(): Flow<LatLng>? {
-        return userCases.getSettingsUseCase?.invoke()?.map { settings ->
-            settings.userLocation ?: LatLng(0.0, 0.0)
-        }
+    fun getCurrentLocation(): Flow<LatLng> = flow {
+        emit(userCases.getSettingsUseCase.invoke().userLocation ?: LatLng(0.0, 0.0))
     }
 
     fun getFavPlacesData() {

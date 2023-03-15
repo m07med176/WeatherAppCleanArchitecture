@@ -15,10 +15,12 @@ class RemoteDataSource(
         longitude: Double,
         latitude: Double,
         language: String,
+        units: String,
     ): Response<WeatherSuccessResponse> = api.getWeatherDetails(
         longitude = longitude,
         latitude = latitude,
-        language = language
+        language = language,
+        units = units,
     )
 
     override fun getCityName(lat: Double, long: Double): String = geoCoderAPI.getCityName(lat, long)

@@ -2,27 +2,13 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.settings
 
 import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
-import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.Temperature
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.WindSpeed
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.setSharedSettings
 
 class SettingsViewModel(private val repository: RepositoryInterface) : ViewModel() {
-
-    private var _settings = MutableStateFlow(Settings())
-    val settings: StateFlow<Settings>
-        get() = _settings
-
-    fun getSettingsData() {
-        viewModelScope.launch {
-            repository.getSharedSettings().collect {
-                _settings.value = it
-            }
-        }
-    }
 
 
     fun saveTemperature(@IdRes id: Int) {
@@ -39,7 +25,7 @@ class SettingsViewModel(private val repository: RepositoryInterface) : ViewModel
             }
         }
 
-        viewModelScope.launch { repository.updateTempraturSettings(temperature) }
+        repository.context.setSharedSettings(temperature)
     }
 
     fun saveWindSpeed(@IdRes id: Int) {
@@ -52,37 +38,8 @@ class SettingsViewModel(private val repository: RepositoryInterface) : ViewModel
                 windSpeed = WindSpeed.Meter
             }
         }
-        viewModelScope.launch { repository.updateWindSpeedSettings(windSpeed) }
-
-
+        repository.context.setSharedSettings(windSpeed)
     }
 
-    fun saveLocationProvider(@IdRes id: Int) {
-        var locationProvider = LocationProvider.Nothing
-        when (id) {
-            R.id.gpsSelectedRadio -> {
-                locationProvider = LocationProvider.GPS
-            }
-            R.id.mapSelectedRadio -> {
-                locationProvider = LocationProvider.MAP
-            }
-        }
 
-        viewModelScope.launch { repository.updateLocationProviderSettings(locationProvider) }
-
-    }
-
-    fun saveLanguage(@IdRes id: Int) {
-        var language = Language.English
-        when (id) {
-            R.id.arabicSelectedRadio -> {
-                language = Language.Arabic
-            }
-            R.id.englishSelectedRadio -> {
-                language = Language.English
-            }
-        }
-        viewModelScope.launch { repository.updateLanguageSettings(language) }
-
-    }
 }

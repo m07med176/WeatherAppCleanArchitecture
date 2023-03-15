@@ -33,9 +33,9 @@ class HomeViewModel(private val useCases: HomeUseCases) : ViewModel() {
     }
 
     fun saveLocation(location: Location) {
-        viewModelScope.launch {
-            useCases.updateGPSLocation.invoke(LatLng(location.latitude, location.longitude))
-        }
+        getWeatherData(LatLng(location.latitude, location.longitude))
+        useCases.updateGPSLocation.invoke(LatLng(location.latitude, location.longitude))
+
     }
 
 

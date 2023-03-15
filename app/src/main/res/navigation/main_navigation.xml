@@ -41,7 +41,11 @@
         android:id="@+id/settings_menu"
         android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settings_menu_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favorite_menu"
         android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteFragment"

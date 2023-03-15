@@ -7,6 +7,7 @@ data class Settings(
     var temperature: Temperature = Temperature.Celsius,
     var windSpeed: WindSpeed = WindSpeed.Meter,
     var locationProvider: LocationProvider = LocationProvider.Nothing,
+    var alertProvider: AlertProvider = AlertProvider.Notification,
     var userLocation: LatLng? = null,
 
     )

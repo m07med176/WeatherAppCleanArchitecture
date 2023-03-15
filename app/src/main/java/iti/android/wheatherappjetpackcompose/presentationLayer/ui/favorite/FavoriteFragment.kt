@@ -14,10 +14,7 @@ import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryInterface
 import iti.android.wheatherappjetpackcompose.databinding.FragmentFavoriteBinding
 import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.DeleteFavoriteUseCase
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.FavoriteUseCases
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFavoritesUseCase
-import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
+import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.*
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination
 import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
@@ -32,7 +29,8 @@ class FavoriteFragment : Fragment() {
         val useCases = FavoriteUseCases(
             deleteFavorite = DeleteFavoriteUseCase(repository),
             insertFavorite = InsertFavoriteUseCase(repository),
-            getFavoritesUseCase = GetFavoritesUseCase(repository)
+            getFavoritesUseCase = GetFavoritesUseCase(repository),
+            getSettingsUseCase = GetSettingsUseCase(repository)
         )
         ViewModelProvider(
             requireActivity(),

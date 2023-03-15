@@ -1,5 +1,6 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
@@ -19,8 +21,9 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeather
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeResponseState
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.UpdateGPSLocationUseCase
+import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
+import iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination
 import iti.android.wheatherappjetpackcompose.presentationLayer.utils.Message
-import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 import iti.android.wheatherappjetpackcompose.utils.GPSUtils
 import iti.android.wheatherappjetpackcompose.utils.PermissionUtils.Companion.onRequestPermissionsResult
 import kotlinx.coroutines.launch
@@ -51,13 +54,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        val bundle = arguments
-        if (bundle != null) {
-            val favoriteItem = bundle.getSerializable(Constants.FAV_ITEM) as FavPlacesModel
-            viewModel.getWeatherData(favoriteItem.location)
-        } else {
-            viewModel.getWeatherData()
-        }
+
 
         binding.lifecycleOwner = this
         adapterHandler()
@@ -68,7 +65,12 @@ class HomeFragment : Fragment() {
         }
 
         binding.locationBtn.setOnClickListener {
-            findNavController(requireActivity())?.navigate(R.id.action_home_menu_to_mapFragment)
+            val bundle = Bundle()
+            bundle.putSerializable(Constants.MAP_DESTINATION, MapDestination.HOME)
+            NavHostFragment.findNavController(this).navigate(
+                R.id.action_home_menu_to_mapFragment,
+                bundle
+            )
         }
 
         lifecycleScope.launch {
@@ -107,6 +109,16 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun getWeatherData() {
+        val bundle = arguments
+        if (bundle != null) {
+            val favoriteItem = bundle.getSerializable(Constants.FAV_ITEM) as FavPlacesModel
+            viewModel.getWeatherData(favoriteItem.location)
+        } else {
+            viewModel.getWeatherData()
+        }
+    }
+
     private fun adapterHandler() {
         adapterHourly = HourlyAdapter()
         adapterDaily = DailyAdapter()
@@ -114,9 +126,16 @@ class HomeFragment : Fragment() {
         binding.hourlyAdapter = adapterHourly
     }
 
+    override fun onResume() {
+        super.onResume()
+        getWeatherData()
+    }
+
     private fun getLocationByGPS() {
         GPSUtils.getLastLocation(requireActivity()) { location ->
             viewModel.saveLocation(location)
+            val intentActivity = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intentActivity)
         }
     }
 
