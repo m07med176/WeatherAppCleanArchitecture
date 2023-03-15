@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.maps.model.LatLng
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
@@ -67,13 +66,12 @@ class HomeFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        val latLng = LatLng(30.61554342119405, 32.27797547385768)
         val bundle = arguments
         if (bundle != null) {
             val favoriteItem = bundle.getSerializable(Constants.FAV_ITEM) as FavPlacesModel
             viewModel.getWeatherData(favoriteItem.location)
         } else {
-            viewModel.getWeatherData(latLng)
+            viewModel.getWeatherData()
 
         }
 

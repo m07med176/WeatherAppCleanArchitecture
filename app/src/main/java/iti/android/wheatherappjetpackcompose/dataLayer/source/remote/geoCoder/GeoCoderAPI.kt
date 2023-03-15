@@ -9,18 +9,21 @@ class GeoCoderAPI(val context: Context) {
     private val geoCoder = Geocoder(context, Locale.getDefault())
 
     fun getCityName(lat: Double, long: Double): String {
+        return getDetailsFromGeoCoder(lat, long)
+    }
+
+    fun getCityName(latLng: LatLng): String {
+        return getDetailsFromGeoCoder(latLng.latitude, latLng.longitude)
+    }
+
+    private fun getDetailsFromGeoCoder(lat: Double, long: Double): String {
         var cityName = ""
-        geoCoder.getFromLocation(lat, long, 1)?.let {
-            cityName = it[0].locality
+        geoCoder.getFromLocation(lat, long, 10)?.let { addresses ->
+            if (addresses.isNotEmpty())
+                cityName = addresses[0].adminArea
         }
         return cityName
     }
 
-    fun getCityName(latLng: LatLng): String {
-        var cityName = ""
-        geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1)?.let {
-            cityName = it[0].locality
-        }
-        return cityName
-    }
+
 }

@@ -9,6 +9,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeRespon
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val useCases: HomeUseCases) : ViewModel() {
@@ -20,9 +21,14 @@ class HomeViewModel(private val useCases: HomeUseCases) : ViewModel() {
 
     fun getWeatherData(latLng: LatLng? = null) {
         viewModelScope.launch {
-            useCases.getWeatherDetailsUseCase.invoke(latLng).collect {
-                _state.value = it
-            }
+            useCases.getWeatherDetailsUseCase.invoke(latLng)
+                .catch {
+                    _state.value =
+                        HomeResponseState.OnError<WeatherDetailsModel>(it.message.toString())
+                }
+                .collect {
+                    _state.value = it
+                }
         }
     }
 
