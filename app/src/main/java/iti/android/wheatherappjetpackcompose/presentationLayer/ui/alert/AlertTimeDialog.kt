@@ -20,13 +20,9 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseC
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.DeleteAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.GetAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.InsertAlertsUseCase
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.services.AlertPeriodicWorkManger
-import iti.android.wheatherappjetpackcompose.utils.convertLongToDayDate
-import iti.android.wheatherappjetpackcompose.utils.convertLongToTime
-import iti.android.wheatherappjetpackcompose.utils.getCurrentLocale
-import iti.android.wheatherappjetpackcompose.utils.getSharedPreferences
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -43,7 +39,6 @@ class AlertTimeDialog : DialogFragment() {
     }
 
     private lateinit var binding: AlertPicTimeDialogButtomSheetBinding
-    private lateinit var language: String
     private lateinit var weatherAlert: AlertEntity
 
     override fun onCreateView(
@@ -57,10 +52,6 @@ class AlertTimeDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        language = getSharedPreferences(requireContext()).getString(
-            getString(R.string.tv_language),
-            getCurrentLocale(requireContext())?.language
-        )!!
         setInitialData()
 
         binding.btnFrom.setOnClickListener {
@@ -112,34 +103,45 @@ class AlertTimeDialog : DialogFragment() {
 
     private fun setInitialData() {
         val rightNow = Calendar.getInstance()
-        // init time
-        val currentHour = TimeUnit.HOURS.toSeconds(rightNow.get(Calendar.HOUR_OF_DAY).toLong())
-        val currentMinute = TimeUnit.MINUTES.toSeconds(rightNow.get(Calendar.MINUTE).toLong())
-        val currentTime = (currentHour + currentMinute).minus(3600L * 2)
-        val currentTimeText = convertLongToTime((currentTime + 60), language)
-        val afterOneHour = currentTime.plus(3600L)
-        val afterOneHourText = convertLongToTime(afterOneHour, language)
+
         // init day
         val year = rightNow.get(Calendar.YEAR)
         val month = rightNow.get(Calendar.MONTH)
         val day = rightNow.get(Calendar.DAY_OF_MONTH)
         val date = "$day/${month + 1}/$year"
-        val dayNow = getDateMillis(date)
-        val currentDate = convertLongToDayDate(dayNow, language)
-        //init model
+        val dayNow = TimeConverter.convertStringToTimestamp(date, TimeConverter.DATE_PATTERN_SLASH)
+
+        // init time
+        val currentHour = TimeUnit.HOURS.toSeconds(rightNow.get(Calendar.HOUR_OF_DAY).toLong())
+        val currentMinute = TimeUnit.MINUTES.toSeconds(rightNow.get(Calendar.MINUTE).toLong())
+
+        val currentTime = (currentHour + currentMinute).minus(3600L * 2)
+        val currentTimeText =
+            TimeConverter.convertTimestampToString((currentTime + 60), TimeConverter.TIME_PATTERN)
+
+        val afterOneHour = currentTime.plus(3600L)
+        val afterOneHourText =
+            TimeConverter.convertTimestampToString(afterOneHour, TimeConverter.TIME_PATTERN)
+
+
+        // set values
+        val currentDate =
+            TimeConverter.convertTimestampToString(dayNow, TimeConverter.DATE_PATTERN_SLASH)
+        binding.btnFrom.text = currentDate.plus(" ").plus(currentTimeText)
+        binding.btnTo.text = currentDate.plus(" ").plus(afterOneHourText)
+
+
+        //init default model
         weatherAlert = AlertEntity(
             startTime = (currentTime + 60),
             endTime = afterOneHour,
             startDate = dayNow,
             endDate = dayNow
         )
-        //init text
-        binding.btnFrom.text = currentDate.plus("\n").plus(currentTimeText)
-        binding.btnTo.text = currentDate.plus("\n").plus(afterOneHourText)
+
     }
 
     private fun showTimePicker(isFrom: Boolean, datePicker: Long) {
-        Locale.setDefault(Locale(language))
         val rightNow = Calendar.getInstance()
         val currentHour = rightNow.get(Calendar.HOUR_OF_DAY)
         val currentMinute = rightNow.get(Calendar.MINUTE)
@@ -147,9 +149,13 @@ class AlertTimeDialog : DialogFragment() {
             { _: TimePicker?, hour: Int, minute: Int ->
                 val time = TimeUnit.MINUTES.toSeconds(minute.toLong()) +
                         TimeUnit.HOURS.toSeconds(hour.toLong()) - (3600L * 2)
-                val dateString = convertLongToDayDate(datePicker, language)
-                val timeString = convertLongToTime(time, language)
-                val text = dateString.plus("\n").plus(timeString)
+                val dateString = TimeConverter.convertTimestampToString(
+                    datePicker,
+                    TimeConverter.DATE_PATTERN_SLASH
+                )
+                val timeString =
+                    TimeConverter.convertTimestampToString(time, TimeConverter.TIME_PATTERN)
+                val text = dateString.plus(" ").plus(timeString)
                 if (isFrom) {
                     weatherAlert.startTime = time
                     weatherAlert.startDate = datePicker
@@ -172,7 +178,6 @@ class AlertTimeDialog : DialogFragment() {
     }
 
     private fun showDatePicker(isFrom: Boolean) {
-        Locale.setDefault(Locale(language))
         val myCalender = Calendar.getInstance()
         val year = myCalender[Calendar.YEAR]
         val month = myCalender[Calendar.MONTH]
@@ -181,7 +186,13 @@ class AlertTimeDialog : DialogFragment() {
             OnDateSetListener { view, year, month, day ->
                 if (view.isShown) {
                     val date = "$day/${month + 1}/$year"
-                    showTimePicker(isFrom, getDateMillis(date))
+                    showTimePicker(
+                        isFrom,
+                        TimeConverter.convertStringToTimestamp(
+                            date,
+                            TimeConverter.DATE_PATTERN_SLASH
+                        )
+                    )
                 }
             }
         val datePickerDialog = DatePickerDialog(
@@ -191,12 +202,6 @@ class AlertTimeDialog : DialogFragment() {
         datePickerDialog.setTitle(getString(R.string.date_picker))
         datePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         datePickerDialog.show()
-    }
-
-    private fun getDateMillis(date: String): Long {
-        val f = SimpleDateFormat("dd/MM/yyyy", Locale(language))
-        val d: Date = f.parse(date)
-        return d.time
     }
 
     override fun onStart() {

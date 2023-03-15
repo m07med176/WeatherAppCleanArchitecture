@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.databinding.AlertWindowMangerBinding
-import iti.android.wheatherappjetpackcompose.utils.getIcon
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.getIcon
 
 
 class AlertWindowManger(

@@ -39,8 +39,8 @@ import iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.*
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModel
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteViewModelFactory
-import iti.android.wheatherappjetpackcompose.utils.Message
-import iti.android.wheatherappjetpackcompose.utils.findNavController
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.Message
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

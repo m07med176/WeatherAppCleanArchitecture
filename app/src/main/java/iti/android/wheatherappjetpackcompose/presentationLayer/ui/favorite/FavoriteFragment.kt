@@ -20,7 +20,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.GetFav
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.favorite.InsertFavoriteUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.DataResponseState
 import iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination
-import iti.android.wheatherappjetpackcompose.utils.findNavController
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {

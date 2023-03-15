@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.utils.findNavController
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -17,7 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
-import iti.android.wheatherappjetpackcompose.utils.getIcon
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.getIcon
 
 
 class AlertService : Service() {

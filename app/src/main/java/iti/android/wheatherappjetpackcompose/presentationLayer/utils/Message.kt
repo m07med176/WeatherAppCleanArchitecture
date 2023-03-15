@@ -1,4 +1,4 @@
-package iti.android.wheatherappjetpackcompose.utils
+package iti.android.wheatherappjetpackcompose.presentationLayer.utils
 
 import android.content.Context
 import android.view.Gravity

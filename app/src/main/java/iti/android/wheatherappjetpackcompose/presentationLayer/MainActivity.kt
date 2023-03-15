@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import iti.android.wheatherappjetpackcompose.R
-import iti.android.wheatherappjetpackcompose.utils.findNavController
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
 
 
 class MainActivity : AppCompatActivity() {

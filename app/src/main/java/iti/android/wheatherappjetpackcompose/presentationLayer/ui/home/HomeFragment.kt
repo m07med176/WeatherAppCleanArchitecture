@@ -1,23 +1,13 @@
 package iti.android.wheatherappjetpackcompose.presentationLayer.ui.home
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.location.LocationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.common.Constants
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
@@ -29,20 +19,17 @@ import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.GetWeather
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeResponseState
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.HomeUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.home.UpdateGPSLocationUseCase
-import iti.android.wheatherappjetpackcompose.utils.Message
-import iti.android.wheatherappjetpackcompose.utils.findNavController
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.Message
+import iti.android.wheatherappjetpackcompose.presentationLayer.utils.findNavController
+import iti.android.wheatherappjetpackcompose.utils.GPSUtils
+import iti.android.wheatherappjetpackcompose.utils.PermissionUtils.Companion.onRequestPermissionsResult
 import kotlinx.coroutines.launch
-
-const val PERMISSION_REQUEST = 565
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterHourly: HourlyAdapter
     private lateinit var adapterDaily: DailyAdapter
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    // TODO refactoring GPS location
 
     private val viewModel: HomeViewModel by lazy {
         val repository: RepositoryInterface =
@@ -63,8 +50,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
 
         val bundle = arguments
         if (bundle != null) {
@@ -72,31 +57,14 @@ class HomeFragment : Fragment() {
             viewModel.getWeatherData(favoriteItem.location)
         } else {
             viewModel.getWeatherData()
-
         }
 
         binding.lifecycleOwner = this
-        adapterHourly = HourlyAdapter()
-        adapterDaily = DailyAdapter()
-        binding.dailyAdapter = adapterDaily
-        binding.hourlyAdapter = adapterHourly
+        adapterHandler()
 
         binding.gpsBtn.setOnClickListener {
-            if (checkPermission()) {
-                if (isEnapledLocation()) {
-                    Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT)
-                        .show()
-                    getLastLocation()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "You should enable location",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } else {
-                requestPermission()
-            }
+            getLocationByGPS()
+
         }
 
         binding.locationBtn.setOnClickListener {
@@ -139,6 +107,19 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun adapterHandler() {
+        adapterHourly = HourlyAdapter()
+        adapterDaily = DailyAdapter()
+        binding.dailyAdapter = adapterDaily
+        binding.hourlyAdapter = adapterHourly
+    }
+
+    private fun getLocationByGPS() {
+        GPSUtils.getLastLocation(requireActivity()) { location ->
+            viewModel.saveLocation(location)
+        }
+    }
+
     private fun updateData(data: WeatherDetailsModel) {
         adapterHourly.submitList(data.hourly)
         adapterDaily.submitList(data.daily)
@@ -160,55 +141,24 @@ class HomeFragment : Fragment() {
     }
 
 
-    @SuppressLint("MissingPermission")
-    fun getLastLocation() {
-        fusedLocationProviderClient
-            .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener { location ->
-                viewModel.saveLocation(location)
-            }
-    }
-
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(), listOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            ).toTypedArray(), PERMISSION_REQUEST
-        )
-    }
-
-    private fun checkPermission(): Boolean {
-        val fineLoation = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        val coarseLocation = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            android.Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        return fineLoation && coarseLocation
-
-    }
-
-    private fun isEnapledLocation(): Boolean {
-        val locationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return LocationManagerCompat.isLocationEnabled(locationManager)
-    }
-
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        GPSUtils.LOCATION_PERMISSIONS_LIST.onRequestPermissionsResult(requestCode,
+            permissions,
+            grantResults,
+            { failedMesssage ->
 
-        if (requestCode == PERMISSION_REQUEST) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation()
-            }
-        }
+            },
+            { successMessage ->
+                getLocationByGPS()
+
+            })
+
 
     }
 }
