@@ -8,6 +8,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsCa
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -23,10 +24,9 @@ class GetWeatherDetailsUseCase(val repository: RepositoryInterface) {
                     val response =
                         repository.getWeatherDetails(
                             // check if latLng is Empty so set Cashed Location
-                            longitude = if (latLng != null) latLng.longitude else settings.userLocation?.longitude
-                                ?: 0.0,
-                            latitude = if (latLng != null) latLng.latitude else settings.userLocation?.latitude
-                                ?: 0.0,
+                            longitude = latLng?.longitude ?: (settings.userLocation?.longitude
+                                ?: 0.0),
+                            latitude = latLng?.latitude ?: (settings.userLocation?.latitude ?: 0.0),
                             language = if (settings.language == Language.Arabic) Constants.ARABIC else Constants.ENGLISH
                         )
 
@@ -41,95 +41,26 @@ class GetWeatherDetailsUseCase(val repository: RepositoryInterface) {
                         )
 
                         // Insert Data in Home Room
-//                        repository.insertHome(
-//                            WeatherDetailsCashMapper().entityFromMap(data)
-//                        )
+                        repository.insertHome(WeatherDetailsCashMapper().entityFromMap(data))
+
                         // Send Data to state
                         HomeResponseState.OnSuccess<WeatherDetailsModel>(data)
                     } else {
                         HomeResponseState.OnError(response.message())
                     }
                 } else {
-                    repository.getHome().map {
-                        HomeResponseState.OnSuccess<WeatherDetailsModel>(
-                            WeatherDetailsCashMapper().mapFromEntity(
-                                it
+                    repository.getHome().catch {
+                        HomeResponseState.OnError<WeatherDetailsModel>(it.message.toString())
+                    }.map { homeEntity ->
+                        if (homeEntity != null)
+                            HomeResponseState.OnSuccess<WeatherDetailsModel>(
+                                WeatherDetailsCashMapper().mapFromEntity(homeEntity)
                             )
-                        )
+                        else
+                            HomeResponseState.OnError<WeatherDetailsModel>("No Cashed Data")
                     }.first()
                 }
             }
         }
     }
-
 }
-//        flow<HomeResponseState<WeatherDetailsModel>> {
-//
-//
-
-
-/*
-perator fun invoke(latLng: LatLng, units: String) =
-        flow<DataResponseState<WeatherDetailsModel>> {
-            if (repository.checkInternetConnectivity()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = async {
-                        repository.getWeatherDetails(
-                            longitude = latLng.longitude,
-                            latitude = latLng.latitude,
-                            units = units
-                        )
-                    }
-
-                    emit(DataResponseState.OnLoading())
-
-                    if (response.await().isSuccessful) {
-                        val responseData = response.await().body()
-                        if (responseData == null) {
-                            emit(DataResponseState.OnNothingData<WeatherDetailsModel>())
-                        } else {
-                            val data = WeatherDetailsMapper().mapFromEntity(responseData)
-                            data.cityName = repository.getCityName(
-                                LatLng(
-                                    data.lat?.toDouble() ?: 0.0,
-                                    data.lon?.toDouble() ?: 0.0
-                                )
-                            )
-                            // Insert Data in Home Room
-                            repository.insertHome(
-                                WeatherDetailsCashMapper().entityFromMap(
-                                    responseData
-                                )
-                            )
-                            // Send Data to state
-                            emit(DataResponseState.OnSuccess<WeatherDetailsModel>(data))
-                        }
-
-                    } else {
-                        // If There is no network Connectivity Send Data from Room
-                        emit(
-                            DataResponseState.OnError<WeatherDetailsModel>(
-                                response.await().message()
-                            )
-                        )
-                    }
-                }
-            } else {
-
-                // retrieve data from Room when there is no internet Connectivity
-                repository.getHome().map { WeatherDetailsCashMapper().mapFromEntity(it) }
-                    .catch { emit(DataResponseState.OnError(it.message.toString())) }
-                    .collectLatest { response ->
-                        if (response.lat == null) {
-                            emit(DataResponseState.OnNothingData())
-                        } else {
-                            val data = WeatherDetailsMapper().mapFromEntity(response)
-                            emit(DataResponseState.OnSuccess(data))
-                        }
-
-                    }
-
-            }
-
-        }
- */

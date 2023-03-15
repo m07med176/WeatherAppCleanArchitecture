@@ -14,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.databinding.AlertPicTimeDialogButtomSheetBinding
-import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.AlertUseCases
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.DeleteAlertUseCase
 import iti.android.wheatherappjetpackcompose.domainLayer.usecase.alert.GetAlertUseCase
@@ -44,7 +44,7 @@ class AlertTimeDialog : DialogFragment() {
 
     private lateinit var binding: AlertPicTimeDialogButtomSheetBinding
     private lateinit var language: String
-    private lateinit var weatherAlert: AlertModel
+    private lateinit var weatherAlert: AlertEntity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,13 +127,12 @@ class AlertTimeDialog : DialogFragment() {
         val dayNow = getDateMillis(date)
         val currentDate = convertLongToDayDate(dayNow, language)
         //init model
-        weatherAlert =
-            AlertModel(
-                startTime = (currentTime + 60),
-                endTime = afterOneHour,
-                startDate = dayNow,
-                endDate = dayNow
-            )
+        weatherAlert = AlertEntity(
+            startTime = (currentTime + 60),
+            endTime = afterOneHour,
+            startDate = dayNow,
+            endDate = dayNow
+        )
         //init text
         binding.btnFrom.text = currentDate.plus("\n").plus(currentTimeText)
         binding.btnTo.text = currentDate.plus("\n").plus(afterOneHourText)

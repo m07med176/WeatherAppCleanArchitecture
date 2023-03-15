@@ -3,9 +3,8 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.service
 import android.content.Context
 import androidx.work.*
 import iti.android.wheatherappjetpackcompose.dataLayer.repository.RepositoryImpl
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Weather
-import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertMapper
-import iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel
 import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsCashMapper
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 import kotlinx.coroutines.flow.first
@@ -31,21 +30,20 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
         val currentWeather =
             repository.getHome().map { WeatherDetailsCashMapper().mapFromEntity(it) }.first()
         val alertEntity = repository.getAlert(id)
-        val alert = AlertMapper().mapFromEntity(alertEntity)
         val current = currentWeather.currentModel?.weather?.get(0) ?: Weather()
-        if (checkTime(alert)) {
-            val delay: Long = getDelay(alert)
+        if (checkTime(alertEntity)) {
+            val delay: Long = getDelay(alertEntity)
             if (currentWeather.alerts.isEmpty()) {
                 setOneTimeWorkManger(
                     delay,
-                    alert.id,
+                    alertEntity.id,
                     current.description,
                     current.icon
                 )
             } else {
                 setOneTimeWorkManger(
                     delay,
-                    alert.id,
+                    alertEntity.id,
                     currentWeather.alerts[0].tags[0],
                     current.icon
                 )
@@ -78,7 +76,7 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
         )
     }
 
-    private fun getDelay(alert: AlertModel): Long {
+    private fun getDelay(alert: AlertEntity): Long {
         val hour =
             TimeUnit.HOURS.toSeconds(Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toLong())
         val minute =
@@ -86,13 +84,15 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
         return (alert.startTime ?: 0) - ((hour + minute) - (2 * 3600L))
     }
 
-    private fun checkTime(alert: AlertModel): Boolean {
+    private fun checkTime(alert: AlertEntity): Boolean {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val date = "$day/${month + 1}/$year"
         val dayNow = TimeConverter.convertStringToTimestamp(date, TimeConverter.DATE_PATTERN_SLASH)
-        return dayNow >= (alert.startDate ?: 0) && dayNow <= (alert.endDate ?: 0)
+        return dayNow >= (alert.startDate ?: 0)
+                &&
+                dayNow <= (alert.endDate ?: 0)
     }
 
 }

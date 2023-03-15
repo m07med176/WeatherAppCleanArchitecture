@@ -74,6 +74,7 @@ class AlertFragment : Fragment() {
                         binding.stateLoadingHolder.visibility = View.GONE
                         binding.stateErrorHolder.visibility = View.VISIBLE
                         binding.rvAlert.visibility = View.GONE
+                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     is DataResponseState.OnSuccess -> {
                         binding.stateEmptyDataHolder.visibility = View.GONE

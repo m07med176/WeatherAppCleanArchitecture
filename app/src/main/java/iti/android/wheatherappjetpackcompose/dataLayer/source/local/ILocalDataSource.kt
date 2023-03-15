@@ -28,7 +28,7 @@ interface ILocalDataSource {
     suspend fun deleteFavorite(favorite: FavoriteEntity)
 
     // Home DAO
-    fun getHome(): Flow<HomeEntity>
+    fun getHome(): Flow<HomeEntity?>
 
     suspend fun insertHome(home: HomeEntity)
 
