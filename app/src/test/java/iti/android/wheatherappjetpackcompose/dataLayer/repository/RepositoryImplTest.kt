@@ -86,9 +86,6 @@ class RepositoryImplTest {
             )
 
         )
-        var home =
-            mutableListOf(weatherSuccessResponse, weatherSuccessResponse, weatherSuccessResponse)
-
         homeCash = HomeEntity(
             content = WeatherDetailsMapper().mapFromEntity(
                 weatherSuccessResponse

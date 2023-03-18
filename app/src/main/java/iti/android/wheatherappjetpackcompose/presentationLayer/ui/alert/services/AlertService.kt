@@ -33,9 +33,13 @@ class AlertService : Service() {
         startForeground(FOREGROUND_ID, makeNotification(description!!, icon!!))
         //start window manger
         if (Settings.canDrawOverlays(this)) {
-            alertWindowManger = AlertWindowManger(this, description, icon)
+            alertWindowManger = AlertWindowManger(this, this, description, icon)
             alertWindowManger!!.setMyWindowManger()
         }
+        val dialogIntent = Intent(this, MainActivity::class.java)
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(dialogIntent)
+
         return START_NOT_STICKY
     }
 

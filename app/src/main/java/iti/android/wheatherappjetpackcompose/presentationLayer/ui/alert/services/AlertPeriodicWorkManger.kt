@@ -27,9 +27,13 @@ class AlertPeriodicWorkManger(private val context: Context, workerParams: Worker
     }
 
     private suspend fun getCurrentData(id: Int) {
+        val alertEntity = repository.getAlert(id)
+        if (alertEntity == null) {
+            return
+        }
         val currentWeather =
             repository.getHome().map { WeatherDetailsCashMapper().mapFromEntity(it) }.first()
-        val alertEntity = repository.getAlert(id)
+
         val current = currentWeather.currentModel?.weather?.get(0) ?: Weather()
         if (checkTime(alertEntity)) {
             val delay: Long = getDelay(alertEntity)

@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import iti.android.wheatherappjetpackcompose.R
 import iti.android.wheatherappjetpackcompose.databinding.AlertWindowMangerBinding
+import iti.android.wheatherappjetpackcompose.presentationLayer.MainActivity
 import iti.android.wheatherappjetpackcompose.presentationLayer.utils.getIcon
 
 
 class AlertWindowManger(
+    private val alertService: AlertService,
     private val context: Context,
     private val description: String,
     private val icon: String,
@@ -48,14 +50,30 @@ class AlertWindowManger(
         windowManager!!.addView(customNotificationDialogView, params)
     }
 
+    fun intentToApp() {
+        val dialogIntent = Intent(context, MainActivity::class.java)
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        alertService.startActivity(dialogIntent)
+    }
+
     private fun bindView() {
         binding?.imageIcon?.setImageResource(getIcon(icon))
         binding?.textDescription?.text = description
         binding?.btnOk?.text = context.getString(R.string.btn_ok)
+        binding?.btnCancel?.text = context.getString(R.string.btn_cancel)
         binding?.btnOk?.setOnClickListener {
+            intentToApp()
             close()
             stopMyService()
         }
+
+        binding?.btnCancel?.setOnClickListener {
+            close()
+            stopMyService()
+
+        }
+
+
     }
 
     private fun close() {

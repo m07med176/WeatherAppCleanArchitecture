@@ -56,4 +56,5 @@
     <string name="display_on_top_message">يجب ان تسمح لنا ان نرسم على التطبيقات</string>
     <string name="okay">بالطبع</string>
     <string name="no">لا</string>
+    <string name="btn_cancel">إلغاء</string>
 </resources>

@@ -106,6 +106,8 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        getWeatherData()
         return binding.root
     }
 
@@ -126,10 +128,6 @@ class HomeFragment : Fragment() {
         binding.hourlyAdapter = adapterHourly
     }
 
-    override fun onResume() {
-        super.onResume()
-        getWeatherData()
-    }
 
     private fun getLocationByGPS() {
         GPSUtils.getLastLocation(requireActivity()) { location ->
