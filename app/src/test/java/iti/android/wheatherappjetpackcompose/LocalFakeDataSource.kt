@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class LocalFakeDataSource(
-    private var alertList: MutableList<AlertEntity> = mutableListOf<AlertEntity>(),
-    private var favoriteList: MutableList<FavoriteEntity> = mutableListOf<FavoriteEntity>(),
-    private var homeCash: HomeEntity,
+    var alertList: MutableList<AlertEntity> = mutableListOf<AlertEntity>(),
+    var favoriteList: MutableList<FavoriteEntity> = mutableListOf<FavoriteEntity>(),
+    var homeCash: HomeEntity,
 
     ) : ILocalDataSource {
 

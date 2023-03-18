@@ -6,7 +6,7 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.IRemoteData
 import retrofit2.Response
 
 class RemoteFakeDataSource(
-    private var weatherSuccessResponse: WeatherSuccessResponse,
+    var weatherSuccessResponse: WeatherSuccessResponse,
 ) : IRemoteDataSource {
     override suspend fun getWeatherDetails(
         longitude: Double,
