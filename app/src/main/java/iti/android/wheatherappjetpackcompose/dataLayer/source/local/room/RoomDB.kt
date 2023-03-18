@@ -12,7 +12,7 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 
 @Database(
     entities = [HomeEntity::class, AlertEntity::class, FavoriteEntity::class],
-    version = 12,
+    version = 9,
     exportSchema = false
 )
 @TypeConverters(WeatherConverters::class, StringListConverters::class)

@@ -69,7 +69,10 @@ class AlertService : Service() {
                 PendingIntent.getActivity(
                     this,
                     0,
-                    Intent(this, MainActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) },
+                    Intent(
+                        this,
+                        MainActivity::class.java
+                    ).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) },
                     PendingIntent.FLAG_ONE_SHOT
                 )
             )

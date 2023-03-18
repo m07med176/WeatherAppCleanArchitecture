@@ -7,7 +7,7 @@ import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
     override fun mapFromEntity(entity: AlertEntity): AlertModel {
         return AlertModel(
-            id=entity.id,
+            id = entity.id,
             latitude = entity.latitude ?: 0.0,
             longitude = entity.longitude ?: 0.0,
             city = entity.city,
@@ -32,7 +32,7 @@ class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
 
     override fun entityFromMap(domainModel: AlertModel): AlertEntity {
         return AlertEntity(
-            id=domainModel.id,
+            id = domainModel.id,
             latitude = domainModel.latitude ?: 0.0,
             longitude = domainModel.longitude ?: 0.0,
             city = domainModel.city,
