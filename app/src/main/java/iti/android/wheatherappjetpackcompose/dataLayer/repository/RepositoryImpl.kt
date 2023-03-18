@@ -8,9 +8,11 @@ import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.ILocalDataSource
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.LocalDataSource
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.cash.*
 import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
+import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.IRemoteDataSource
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.RemoteDataSource
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.geoCoder.GeoCoderAPI
 import iti.android.wheatherappjetpackcompose.dataLayer.source.remote.hasNetwork
@@ -19,8 +21,8 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class RepositoryImpl(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: ILocalDataSource,
+    private val remoteDataSource: IRemoteDataSource,
     override val context: Context,
 ) : RepositoryInterface {
 
