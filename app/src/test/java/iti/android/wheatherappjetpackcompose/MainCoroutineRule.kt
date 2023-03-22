@@ -1,5 +1,3 @@
-package iti.android.wheatherappjetpackcompose
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*

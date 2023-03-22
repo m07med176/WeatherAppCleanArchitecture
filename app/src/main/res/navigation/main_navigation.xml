@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/alert_menu"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.AlertFragment"
+        android:label="fragment_alert"
+        tools:layout="@layout/fragment_alert" />
+    <fragment
+        android:id="@+id/home_menu"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settings_menu"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_home_menu_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/details_menu"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+
+        <argument
+            android:name="favoriteItem"
+            android:defaultValue="@null"
+            app:argType="iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings_menu"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settings_menu_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorite_menu"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favorite_menu_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mapFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_favorite_menu_to_details_menu"
+            app:destination="@id/details_menu"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <argument
+            android:name="MAP_DESTINATION"
+            android:defaultValue="HOME"
+            app:argType="iti.android.wheatherappjetpackcompose.presentationLayer.ui.map.MapDestination" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="iti.android.wheatherappjetpackcompose.presentationLayer.ui.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_home_menu"
+            app:destination="@id/home_menu"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

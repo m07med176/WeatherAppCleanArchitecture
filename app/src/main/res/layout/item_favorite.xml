@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="modelData"
+            type="iti.android.wheatherappjetpackcompose.domainLayer.models.FavPlacesModel" />
+
+        <variable
+            name="clickListener"
+            type="iti.android.wheatherappjetpackcompose.presentationLayer.ui.favorite.FavoriteAdapter.ItemOnCLickListener" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="100dp"
+        android:padding="10dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:onClick="@{()->clickListener.onClick(modelData)}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView_city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="9dp"
+                android:layout_weight="1"
+                android:text="@{modelData.city}"
+                android:gravity="left|center"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                tools:text="Cairo" />
+
+            <ImageButton
+                android:id="@+id/imageButton_delete"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:onClick="@{()->clickListener.onDeleteClick(modelData)}"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_delete" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
+

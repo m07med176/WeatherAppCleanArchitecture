@@ -1,15 +1,76 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
+import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Current
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.iconConverter
+import kotlin.streams.toList
 
 class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetailsModel> {
     override fun mapFromEntity(entity: WeatherSuccessResponse): WeatherDetailsModel {
+        val currentEntity: Current = entity.current ?: Current()
+
+        val dailyList = entity.daily?.stream()?.map { dailyEntity ->
+            DailyModel(
+                dt = TimeConverter.convertTimestampToString(
+                    dailyEntity.dt.toLong(),
+                    TimeConverter.DAY_PATTERN
+                ) ?: "",
+                image = dailyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
+                    .toList()[0],
+                min = dailyEntity.temp.min.toString(),
+                max = dailyEntity.temp.max.toString(),
+                desc = dailyEntity.weather.stream().map { weather -> weather.description }
+                    .toList()[0],
+
+                )
+        }?.toList() ?: emptyList()
+
+        val hourlyList = entity.hourly?.stream()?.map { hourlyEntity ->
+            HourlyModel(
+                dt = TimeConverter.convertTimestampToString(
+                    hourlyEntity.dt.toLong(),
+                    TimeConverter.TIME_PATTERN
+                ) ?: "",
+                image = hourlyEntity.weather.stream().map { weather -> iconConverter(weather.icon) }
+                    .toList()[0],
+                temp = hourlyEntity.temp.toString()
+            )
+        }?.toList() ?: emptyList()
+        currentEntity.apply {
+            if (weather.isNotEmpty()) {
+                weather[0].icon = iconConverter(weather[0].icon)
+            }
+        }
+
+
         return WeatherDetailsModel(
-            current = entity.current,
-            alert = entity.alert,
-            daily = entity.daily,
-            hourly = entity.hourly,
+            currentModel = CurrentModel(
+                clouds = currentEntity.clouds.toString(),
+                dt = TimeConverter.convertTimestampToString(
+                    (currentEntity.dt ?: 0.0).toLong(),
+                    TimeConverter.DATETIME_PATTERN
+                ) ?: "",
+                weather = currentEntity.weather,
+                wind_gust = currentEntity.wind_gust.toString(),
+                wind_deg = currentEntity.wind_deg.toString(),
+                temp = currentEntity.temp.toString(),
+                visibility = currentEntity.visibility.toString(),
+                uvi = currentEntity.uvi.toString(),
+                sunset = currentEntity.sunset.toString(),
+                sunrise = currentEntity.sunrise.toString(),
+                pressure = currentEntity.pressure.toString(),
+                humidity = currentEntity.humidity.toString(),
+                feels_like = currentEntity.feels_like.toString(),
+                dew_point = currentEntity.dew_point.toString(),
+                wind_speed = currentEntity.wind_speed.toString()
+
+
+            ),
+            alerts = entity.alert,
+            daily = dailyList,
+            hourly = hourlyList,
             lat = entity.lat,
             lon = entity.lon,
             timezone = entity.timezone,
@@ -18,11 +79,12 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
     }
 
     override fun entityFromMap(domainModel: WeatherDetailsModel): WeatherSuccessResponse {
+        val currentModel: CurrentModel = domainModel.currentModel ?: CurrentModel()
         return WeatherSuccessResponse(
-            current = domainModel.current,
-            alert = domainModel.alert,
-            daily = domainModel.daily,
-            hourly = domainModel.hourly,
+            current = null,
+            alert = domainModel.alerts,
+            daily = null,
+            hourly = null,
             lat = domainModel.lat,
             lon = domainModel.lon,
             timezone = domainModel.timezone,
@@ -37,4 +99,6 @@ class WeatherDetailsMapper : EntityMapper<WeatherSuccessResponse, WeatherDetails
     override fun entityListFromMapList(domainModelList: List<WeatherDetailsModel>): List<WeatherSuccessResponse> {
         return domainModelList.map { entityFromMap(it) }
     }
+
+
 }

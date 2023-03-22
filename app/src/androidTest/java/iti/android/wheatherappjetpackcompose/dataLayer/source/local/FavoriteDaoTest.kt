@@ -1,11 +1,11 @@
-package iti.android.wheatherappjetpackcompose.dataLayer.source.local
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.FavoriteEntity
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.FavoriteDao
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -16,7 +16,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -45,11 +44,11 @@ class FavoriteDaoTest {
 
 
     @Test
-    fun getFavorites() = runBlockingTest {
+    fun getFavorites_insertItems_getFavoriteList() = runBlockingTest {
         // Gavin
-        val item1 = fakeData.get(0)
-        val item2 = fakeData.get(1)
-        val item3 = fakeData.get(2)
+        val item1 = fakeData[0]
+        val item2 = fakeData[1]
+        val item3 = fakeData[2]
         favoriteTable.insertFavorite(item1)
         favoriteTable.insertFavorite(item2)
         favoriteTable.insertFavorite(item3)
@@ -61,9 +60,9 @@ class FavoriteDaoTest {
 
 
     @Test
-    fun insertFavorite() = runBlockingTest {
+    fun insertFavorite_insertItem_getSameInsertedItem() = runBlockingTest {
         // Gavin
-        val item = fakeData.get(0)
+        val item = fakeData[0]
         // When
         favoriteTable.insertFavorite(item)
         // Then
@@ -72,13 +71,13 @@ class FavoriteDaoTest {
     }
 
     @Test
-    fun deleteFavorite() = runBlockingTest {
+    fun deleteFavorite_deleteItem_getZeroSizeOfFavoriteList() = runBlockingTest {
         // Gavin
-        val item = fakeData.get(0)
+        val item = fakeData[0]
         favoriteTable.insertFavorite(item)
         val items = favoriteTable.getFavorites().first()
         // When
-        favoriteTable.deleteFavorite(items.get(0))
+        favoriteTable.deleteFavorite(items[0])
         // Then
         val result = favoriteTable.getFavorites().first()
         assertThat(result.size, Is.`is`(0))

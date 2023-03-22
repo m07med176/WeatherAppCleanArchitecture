@@ -1,32 +1,56 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Alert
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.AlertEntity
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
+import iti.android.wheatherappjetpackcompose.domainLayer.utils.TimeConverter
 
 class AlertMapper : EntityMapper<AlertEntity, AlertModel> {
     override fun mapFromEntity(entity: AlertEntity): AlertModel {
         return AlertModel(
             id = entity.id,
-            description = entity.content.description,
-            end = entity.content.end,
-            event = entity.content.event,
-            senderName = entity.content.senderName,
-            start = entity.content.start,
-            tags = entity.content.tags
+            latitude = entity.latitude ?: 0.0,
+            longitude = entity.longitude ?: 0.0,
+            city = entity.city,
+            endDate = TimeConverter.convertTimestampToString(
+                entity.endDate ?: 0,
+                TimeConverter.DAY_PATTERN
+            ),
+            endTime = TimeConverter.convertTimestampToString(
+                entity.endTime ?: 0,
+                TimeConverter.TIME_PATTERN
+            ),
+            startDate = TimeConverter.convertTimestampToString(
+                entity.startDate ?: 0,
+                TimeConverter.DAY_PATTERN
+            ),
+            startTime = TimeConverter.convertTimestampToString(
+                entity.startTime ?: 0,
+                TimeConverter.TIME_PATTERN
+            )
         )
     }
 
     override fun entityFromMap(domainModel: AlertModel): AlertEntity {
         return AlertEntity(
             id = domainModel.id,
-            content = Alert(
-                description = domainModel.description,
-                end = domainModel.end,
-                event = domainModel.event,
-                senderName = domainModel.senderName,
-                start = domainModel.start,
-                tags = domainModel.tags
+            latitude = domainModel.latitude ?: 0.0,
+            longitude = domainModel.longitude ?: 0.0,
+            city = domainModel.city,
+            endDate = TimeConverter.convertStringToTimestamp(
+                domainModel.endDate ?: "",
+                TimeConverter.DAY_PATTERN
+            ),
+            endTime = TimeConverter.convertStringToTimestamp(
+                domainModel.endTime ?: "",
+                TimeConverter.TIME_PATTERN
+            ),
+            startDate = TimeConverter.convertStringToTimestamp(
+                domainModel.startDate ?: "",
+                TimeConverter.DAY_PATTERN
+            ),
+            startTime = TimeConverter.convertStringToTimestamp(
+                domainModel.startTime ?: "",
+                TimeConverter.TIME_PATTERN
             )
         )
     }

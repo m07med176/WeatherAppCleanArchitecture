@@ -2,10 +2,13 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 }
-
+kapt {
+    correctErrorTypes true
+}
 android {
     namespace 'iti.android.wheatherappjetpackcompose'
     compileSdk 33
@@ -22,20 +25,20 @@ android {
             useSupportLibrary true
         }
 
-        Properties properties = new Properties()
-        if (rootProject.file("local.properties").exists()) {
-            properties.load(
-                    rootProject
-                            .file("local.properties")
-                            .newDataInputStream()
-            )
-        }
-
-        buildConfigField(
-                "String",
-                "MAPS_API_KEY",
-                properties.getProperty("MAPS_API_KEY")
-        )
+//        Properties properties = new Properties()
+//        if (rootProject.file("local.properties").exists()) {
+//            properties.load(
+//                    rootProject
+//                            .file("local.properties")
+//                            .newDataInputStream()
+//            )
+//        }
+//
+//        buildConfigField(
+//                "String",
+//                "MAPS_API_KEY",
+//                properties.getProperty("MAPS_API_KEY")
+//        )
 
     }
 
@@ -54,6 +57,8 @@ android {
     }
     buildFeatures {
         compose true
+        dataBinding true
+        viewBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.2.0'
@@ -84,10 +89,17 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+
+    // Navigation XML Components
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+
 
     // Google MAPS
     implementation 'com.google.maps.android:maps-compose:2.11.0'
@@ -133,6 +145,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.5.0"
     implementation "androidx.room:room-ktx:2.5.0"
 
+
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
@@ -145,6 +158,21 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
+
     // Json Parser
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // Lottie
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
+    // GLIDE
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
+
+    // Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
 }

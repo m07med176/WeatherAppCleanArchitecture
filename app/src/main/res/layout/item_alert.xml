@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="modelData"
+            type="iti.android.wheatherappjetpackcompose.domainLayer.models.AlertModel" />
+
+        <variable
+            name="clickListener"
+            type="iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.AlertAdapter.ItemOnCLickListener" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_weight=".5"
+                android:id="@+id/textView_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{modelData.startDate+ ' '+modelData.startTime }"
+                android:textSize="12sp"
+                tools:text="10/12/23 02:52 AM" />
+
+            <TextView
+                android:layout_weight=".5"
+                android:id="@+id/textView_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{modelData.endDate +' '+modelData.startTime}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textView_from"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                android:textSize="12sp"
+                tools:text="10/12/23 02:53 AM" />
+
+            <ImageButton
+                android:id="@+id/imageButton_delete"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:onClick="@{()->clickListener.onClick(modelData)}"
+                android:src="@drawable/ic_delete" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

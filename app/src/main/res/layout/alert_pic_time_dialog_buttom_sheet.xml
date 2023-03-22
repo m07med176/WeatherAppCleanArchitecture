@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/alert_pic_datetime"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="10dp"
+    android:background="@drawable/background_search">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btn_From"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_datetime"
+            android:text="@string/select_date_from"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:id="@+id/btn_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_datetime"
+            android:text="@string/select_data_to"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_location_2"
+            android:text="@string/select_location"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="0.5"
+                android:text="@string/btn_save"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                tools:layout_editor_absoluteX="299dp"
+                tools:layout_editor_absoluteY="166dp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="0.5"
+                android:text="@string/places_cancel"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                tools:layout_editor_absoluteX="24dp"
+                tools:layout_editor_absoluteY="166dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

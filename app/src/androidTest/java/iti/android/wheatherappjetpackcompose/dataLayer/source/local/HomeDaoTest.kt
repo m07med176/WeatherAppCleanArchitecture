@@ -9,6 +9,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.Current
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.HomeDao
+import iti.android.wheatherappjetpackcompose.dataLayer.source.local.room.RoomDB
+import iti.android.wheatherappjetpackcompose.domainLayer.models.WeatherDetailsMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -43,21 +46,21 @@ class HomeDaoTest {
             timezone = "56352232",
             timezone_offset = 55,
             current = Current(
-                clouds = 54,
+                clouds = 54.toDouble(),
                 dew_point = 0.5455,
-                dt = 51,
+                dt = 51.toDouble(),
                 feels_like = 5.24,
-                humidity = 5635,
-                pressure = 545,
-                sunrise = 54645,
-                sunset = 564,
+                humidity = 5635.toDouble(),
+                pressure = 545.toDouble(),
+                sunrise = 54645.toDouble(),
+                sunset = 564.toDouble(),
                 temp = 0.224,
                 uvi = 0.2454,
-                visibility = 45,
+                visibility = 45.toDouble(),
                 weather = emptyList(),
-                wind_deg = 554,
+                wind_deg = 554.toDouble(),
                 wind_gust = 0.25,
-                wind_speed = 564
+                wind_speed = 564.toDouble()
             )
 
         )
@@ -74,11 +77,11 @@ class HomeDaoTest {
 
 
     @Test
-    fun getHome() = runBlockingTest {
+    fun getHome_insertItems_getCheckedItem() = runBlockingTest {
         // Gavin
-        val item1 = HomeEntity(content = fakeData.get(0))
-        val item2 = HomeEntity(content = fakeData.get(1))
-        val item3 = HomeEntity(content = fakeData.get(2))
+        val item1 = HomeEntity(content = WeatherDetailsMapper().mapFromEntity(fakeData[0]))
+        val item2 = HomeEntity(content = WeatherDetailsMapper().mapFromEntity(fakeData[1]))
+        val item3 = HomeEntity(content = WeatherDetailsMapper().mapFromEntity(fakeData[2]))
         homeTable.insertHome(item1)
         homeTable.insertHome(item2)
         homeTable.insertHome(item3)
@@ -90,9 +93,9 @@ class HomeDaoTest {
 
 
     @Test
-    fun insertHome() = runBlockingTest {
+    fun insertHome_insertItem_getInsertedItem() = runBlockingTest {
         // Gavin
-        val item = HomeEntity(content = fakeData.get(0))
+        val item = HomeEntity(content = WeatherDetailsMapper().mapFromEntity(fakeData[0]))
         // When
         homeTable.insertHome(item)
         // Then
@@ -101,9 +104,9 @@ class HomeDaoTest {
     }
 
     @Test
-    fun deleteHome() = runBlockingTest {
+    fun deleteHome_deleteItem_getNullValue() = runBlockingTest {
         // Gavin
-        val item = HomeEntity(content = fakeData.get(0))
+        val item = HomeEntity(content = WeatherDetailsMapper().mapFromEntity(fakeData[0]))
         homeTable.insertHome(item)
         val insertedItem = homeTable.getHome().first()
         // When

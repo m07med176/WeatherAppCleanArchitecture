@@ -1,14 +1,13 @@
 package iti.android.wheatherappjetpackcompose.domainLayer.models
 
 import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.HomeEntity
-import iti.android.wheatherappjetpackcompose.dataLayer.source.dto.WeatherSuccessResponse
 import iti.android.wheatherappjetpackcompose.domainLayer.utils.EntityMapper
 
 class WeatherDetailsCashMapper : EntityMapper<HomeEntity, WeatherDetailsModel> {
     override fun mapFromEntity(entity: HomeEntity): WeatherDetailsModel {
         return WeatherDetailsModel(
-            current = entity.content.current,
-            alert = entity.content.alert,
+            currentModel = entity.content.currentModel,
+            alerts = entity.content.alerts,
             daily = entity.content.daily,
             hourly = entity.content.hourly,
             lat = entity.content.lat,
@@ -20,9 +19,9 @@ class WeatherDetailsCashMapper : EntityMapper<HomeEntity, WeatherDetailsModel> {
 
     override fun entityFromMap(domainModel: WeatherDetailsModel): HomeEntity {
         return HomeEntity(
-            content = WeatherSuccessResponse(
-                current = domainModel.current,
-                alert = domainModel.alert,
+            content = WeatherDetailsModel(
+                currentModel = domainModel.currentModel,
+                alerts = domainModel.alerts,
                 daily = domainModel.daily,
                 hourly = domainModel.hourly,
                 lat = domainModel.lat,
