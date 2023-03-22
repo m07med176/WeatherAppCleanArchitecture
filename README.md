@@ -27,3 +27,38 @@ visibility distance, relative humidity, Wind Speed
 * Network Permission.
 * Location Permission.
 
+
+<hr>
+<img alt="Light" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/1.png" width="45%">
+<hr>
+
+<p align="center">
+  <img alt="Light" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/2.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/3.png" width="45%">
+</p>
+
+<p align="center">
+  <img alt="Light" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/4.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/5.png" width="45%">
+</p>
+
+
+<p align="center">
+  <img alt="Light" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/6.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/7.png" width="45%">
+</p>
+
+
+<p align="center">
+  <img alt="Light" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/8.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="https://github.com/m07med176/WeatherAppCleanArchitecture/blob/master/screenshots/9.png" width="45%">
+</p>
+
+
+
+
+
