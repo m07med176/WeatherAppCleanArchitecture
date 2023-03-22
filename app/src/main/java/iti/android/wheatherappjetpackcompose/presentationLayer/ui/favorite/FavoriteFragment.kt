@@ -58,11 +58,11 @@ class FavoriteFragment : Fragment() {
         viewModel.getFavPlacesData()
         val adapter = FavoriteAdapter(
             FavoriteAdapter.ItemOnCLickListener(
-                ::onItemClickedToNavigate,
-                ::onItemDeleted
+                ::onItemClickedToNavigate, ::onItemDeleted
             )
         )
         binding.mAdapter = adapter
+
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {

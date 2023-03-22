@@ -3,6 +3,7 @@ package iti.android.wheatherappjetpackcompose.presentationLayer.ui.alert.service
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,6 +39,7 @@ class AlertWindowManger(
         } else {
             WindowManager.LayoutParams.TYPE_PHONE
         }
+
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = (context.resources.displayMetrics.widthPixels * 0.85).toInt()
         val params = WindowManager.LayoutParams(
@@ -47,6 +49,8 @@ class AlertWindowManger(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
             PixelFormat.TRANSLUCENT
         )
+
+
         windowManager!!.addView(customNotificationDialogView, params)
     }
 
@@ -61,15 +65,21 @@ class AlertWindowManger(
         binding?.textDescription?.text = description
         binding?.btnOk?.text = context.getString(R.string.btn_ok)
         binding?.btnCancel?.text = context.getString(R.string.btn_cancel)
+        val mediaPlayer = MediaPlayer.create(context, R.raw.oh_no)
+        mediaPlayer.setOnCompletionListener {
+            it.stop()
+        }
         binding?.btnOk?.setOnClickListener {
             intentToApp()
             close()
             stopMyService()
+            mediaPlayer.stop()
         }
 
         binding?.btnCancel?.setOnClickListener {
             close()
             stopMyService()
+            mediaPlayer.stop()
 
         }
 
